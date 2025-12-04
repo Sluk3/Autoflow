@@ -8,14 +8,14 @@ const headers = {
 };
 
 class EntityAPI {
-  constructor(entityName, webhookId) {
+  constructor(entityName, webhookIds) {
     this.entityName = entityName;
-    this.webhookId = webhookId;
+    this.webhookIds = webhookIds;
   }
 
   async list(sort) {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookId}`, { headers });
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.list}`, { headers });
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     } catch (error) {
@@ -26,7 +26,7 @@ class EntityAPI {
 
   async get(id) {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookId}/${id}`, { headers });
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.list}/${id}`, { headers });
       return await response.json();
     } catch (error) {
       console.error(`Error fetching ${this.entityName} ${id}:`, error);
@@ -36,7 +36,7 @@ class EntityAPI {
 
   async create(data) {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookId}`, {
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.create}`, {
         method: 'POST',
         headers,
         body: JSON.stringify(data)
@@ -50,10 +50,10 @@ class EntityAPI {
 
   async update(id, data) {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookId}/${id}`, {
-        method: 'PUT',
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.update}`, {
+        method: 'POST',
         headers,
-        body: JSON.stringify(data)
+        body: JSON.stringify({ [`${this.entityName.toLowerCase()}_id`]: id, ...data })
       });
       return await response.json();
     } catch (error) {
@@ -64,7 +64,7 @@ class EntityAPI {
 
   async delete(id) {
     try {
-      await fetch(`${N8N_BASE_URL}/${this.webhookId}/${id}`, {
+      await fetch(`${N8N_BASE_URL}/${this.webhookIds.delete || this.webhookIds.list}/${id}`, {
         method: 'DELETE',
         headers
       });
@@ -87,7 +87,7 @@ const auth = {
     // Simulazione login - in produzione chiamerebbe N8N
     const user = {
       email,
-      full_name: email.split('@')[0],
+      name: email.split('@')[0],
       id: '1'
     };
     localStorage.setItem('user', JSON.stringify(user));
@@ -113,10 +113,30 @@ const auth = {
 export const base44 = {
   auth,
   entities: {
-    Customer: new EntityAPI('Customer', 'customers'),
-    CustomerVehicle: new EntityAPI('CustomerVehicle', 'vehicles'),
-    WorkLog: new EntityAPI('WorkLog', 'workorders'),
-    CallLog: new EntityAPI('CallLog', 'calllogs'),
+    // Customers webhooks
+    Customer: new EntityAPI('Customer', {
+      list: '5917132c-5c5a-4d35-b493-6062989ee46a',
+      create: 'f7a0c555-e94b-419a-a699-a05120727949',
+      update: '6a891e44-1c12-4ffb-aefc-1dcedc13fcd0'
+    }),
+    // Vehicles webhooks
+    CustomerVehicle: new EntityAPI('Vehicle', {
+      list: '5917132c-5c5a-4d35-b493-6012989ee46a',
+      create: 'ca4bf509-dee1-4241-b9ff-0aeb71e4ad93',
+      update: 'd506400d-4934-4bd6-a734-38ad303dd1f4'
+    }),
+    // Work Orders webhooks
+    WorkLog: new EntityAPI('Work', {
+      list: 'bf0b516d-cc4c-43c5-8bf6-bc622cf30674',
+      create: 'e7b36266-8089-4337-932a-831a3318f559',
+      update: '1119f46b-3686-4985-82f1-4da16dee66de'
+    }),
+    // Call Logs webhooks
+    CallLog: new EntityAPI('Call', {
+      list: '220571c6-1906-441d-8f40-1ea3739181fe',
+      create: '220571c6-1906-441d-8f40-1ea3739181fe',
+      update: '220571c6-1906-441d-8f40-1ea3739181fe'
+    }),
   }
 };
 
