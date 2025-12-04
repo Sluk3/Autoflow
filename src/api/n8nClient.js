@@ -18,7 +18,6 @@ class EntityAPI {
   async list(sort) {
     const url = `${N8N_BASE_URL}/${this.webhookIds.list}`;
     console.log(`🌐 [${this.entityName}] Fetching from:`, url);
-    console.log(`🔑 Headers:`, headers);
     
     try {
       const response = await fetch(url, { 
@@ -27,7 +26,6 @@ class EntityAPI {
       });
       
       console.log(`📡 [${this.entityName}] Response status:`, response.status, response.statusText);
-      console.log(`📡 [${this.entityName}] Response headers:`, Object.fromEntries(response.headers.entries()));
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -36,17 +34,23 @@ class EntityAPI {
       }
       
       const data = await response.json();
-      console.log(`✅ [${this.entityName}] Data received:`, data);
-      console.log(`📊 [${this.entityName}] Is array?`, Array.isArray(data));
-      console.log(`📊 [${this.entityName}] Length:`, data?.length);
+      console.log(`✅ [${this.entityName}] Raw data:`, data);
       
-      return Array.isArray(data) ? data : [];
+      // Handle both array and single object responses
+      let result;
+      if (Array.isArray(data)) {
+        result = data;
+      } else if (data && typeof data === 'object') {
+        // Single object - wrap in array
+        result = [data];
+      } else {
+        result = [];
+      }
+      
+      console.log(`📊 [${this.entityName}] Final result (${result.length} items):`, result);
+      return result;
     } catch (error) {
       console.error(`💥 [${this.entityName}] Exception:`, error);
-      console.error(`💥 [${this.entityName}] Error details:`, {
-        message: error.message,
-        stack: error.stack
-      });
       return [];
     }
   }
