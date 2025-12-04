@@ -1,4 +1,6 @@
 // N8N API Client - Sostituisce Base44
+import { hashPassword } from '../utils/crypto';
+
 const N8N_BASE_URL = 'https://n8n.srv1041062.hstgr.cloud/webhook';
 const API_KEY = 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance';
 
@@ -80,7 +82,7 @@ class EntityAPI {
   }
 }
 
-// Auth API con webhook reali
+// Auth API con webhook reali e SHA-256
 const auth = {
   me: async () => {
     const user = localStorage.getItem('user');
@@ -89,10 +91,13 @@ const auth = {
   
   login: async (email, password) => {
     try {
+      // Hash password with SHA-256 before sending
+      const passwordHash = await hashPassword(password);
+      
       const response = await fetch(`${N8N_BASE_URL}/703f6db5-8415-4bbe-86c3-dfcacf992f90`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password_hash: passwordHash })
       });
       
       if (!response.ok) {

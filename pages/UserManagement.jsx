@@ -6,9 +6,7 @@ import { Input } from '@/components/ui/input';
 import GlassModal from '../components/shared/GlassModal';
 import { useAuth } from '@/context/AuthContext';
 import { base44 } from '@/api/n8nClient';
-import bcrypt from 'bcryptjs';
-
-const SALT_ROUNDS = 10;
+import { hashPassword } from '@/utils/crypto';
 
 export default function UserManagement() {
   const { user } = useAuth();
@@ -37,8 +35,8 @@ export default function UserManagement() {
 
   const createUserMutation = useMutation({
     mutationFn: async (data) => {
-      // Hash password with bcrypt before sending
-      const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
+      // Hash password with SHA-256 before sending
+      const hashedPassword = await hashPassword(data.password);
       
       return await base44.entities.User.create({
         email: data.email,
@@ -64,7 +62,7 @@ export default function UserManagement() {
 
       // Only hash and update password if a new one is provided
       if (data.password) {
-        payload.password_hash = await bcrypt.hash(data.password, SALT_ROUNDS);
+        payload.password_hash = await hashPassword(data.password);
       }
 
       return await base44.entities.User.update(id, payload);
@@ -237,7 +235,7 @@ export default function UserManagement() {
               placeholder="••••••••"
               minLength={8}
             />
-            <p className="text-xs text-slate-400 mt-1">Min 8 characters. Encrypted with bcrypt (10 rounds).</p>
+            <p className="text-xs text-slate-400 mt-1">Min 8 characters. Encrypted with SHA-256.</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Role</label>
