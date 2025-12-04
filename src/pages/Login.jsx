@@ -1,26 +1,40 @@
 import { useState } from 'react'
-import { supabase } from '../App'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    const result = await login(email, password)
 
-    if (error) {
-      setError(error.message)
+    if (result.success) {
+      navigate('/dashboard')
+    } else {
+      setError(result.error || 'Login failed')
     }
+    
     setLoading(false)
+  }
+
+  // Demo login for testing
+  const handleDemoLogin = () => {
+    const demoUser = {
+      email: 'demo@bcperformance.com',
+      name: 'Demo User',
+      role: 'admin'
+    }
+    localStorage.setItem('user', JSON.stringify(demoUser))
+    window.location.href = '/dashboard'
   }
 
   return (
@@ -68,6 +82,19 @@ export default function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        <div className="mt-4">
+          <button
+            onClick={handleDemoLogin}
+            className="w-full bg-slate-700 text-white font-medium py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors"
+          >
+            Demo Login (for testing)
+          </button>
+        </div>
+
+        <p className="text-xs text-slate-500 text-center mt-6">
+          Authentication via N8N webhooks
+        </p>
       </div>
     </div>
   )

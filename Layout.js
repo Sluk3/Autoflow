@@ -11,7 +11,7 @@ import {
   LogOut,
   Database
 } from "lucide-react";
-import { supabase } from "./src/App";
+import { useAuth } from "./src/context/AuthContext";
 import { Button } from "./src/components/ui/button";
 
 const createPageUrl = (pageName) => `/${pageName.toLowerCase()}`;
@@ -52,21 +52,11 @@ const navigationItems = [
 export default function Layout({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [user, setUser] = React.useState(null);
 
-  React.useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        setUser(user);
-      } else {
-        navigate('/login');
-      }
-    });
-  }, [navigate]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleLogout = () => {
+    logout();
     navigate('/login');
   };
 
@@ -103,7 +93,7 @@ export default function Layout({ children }) {
       `}</style>
 
       <div className="relative z-10 flex min-h-screen">
-        {/* Desktop Sidebar - Fixed */}
+        {/* Desktop Sidebar */}
         <aside className="hidden lg:flex lg:flex-col lg:w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0">
           <div className="p-6 border-b border-slate-700">
             <div className="flex items-center gap-3">
@@ -142,12 +132,12 @@ export default function Layout({ children }) {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <span className="text-white font-semibold text-sm">
-                    {user?.email?.[0]?.toUpperCase() || 'U'}
+                    {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate text-white">
-                    {user?.user_metadata?.full_name || 'User'}
+                    {user?.name || 'User'}
                   </p>
                   <p className="text-xs truncate text-slate-400">{user?.email || ''}</p>
                 </div>
@@ -164,7 +154,7 @@ export default function Layout({ children }) {
           </div>
         </aside>
 
-        {/* Mobile Menu */}
+        {/* Mobile Header */}
         <div className="lg:hidden fixed top-0 left-0 right-0 z-50 glass-morphism border-b border-slate-700">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
@@ -186,6 +176,7 @@ export default function Layout({ children }) {
           </div>
         </div>
 
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden fixed inset-0 z-40 pt-16">
             <div className="glass-morphism h-full p-4 overflow-y-auto">
@@ -213,11 +204,11 @@ export default function Layout({ children }) {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                     <span className="text-white font-semibold">
-                      {user?.email?.[0]?.toUpperCase() || 'U'}
+                      {user?.name?.[0]?.toUpperCase() || 'U'}
                     </span>
                   </div>
                   <div>
-                    <p className="font-medium text-white">{user?.user_metadata?.full_name || 'User'}</p>
+                    <p className="font-medium text-white">{user?.name || 'User'}</p>
                     <p className="text-xs text-slate-400">{user?.email || ''}</p>
                   </div>
                 </div>
