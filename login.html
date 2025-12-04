@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoFlow Pro - Login</title>
+    <link href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68f6332183aa572175fc2591/a8cc39709_bc_performance_movil.png" rel="icon" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-morphism {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="m-0 p-0">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        <div class="glass-morphism rounded-2xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                    <span class="text-4xl">🔧</span>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">AutoFlow Pro</h1>
+                <p class="text-slate-400">Sign in to your account</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                    <input 
+                        type="email" 
+                        id="email"
+                        class="w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                        required
+                        placeholder="your@email.com"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Password</label>
+                    <input 
+                        type="password" 
+                        id="password"
+                        class="w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+                        required
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <div id="errorMessage" class="hidden bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded-lg text-sm">
+                    Invalid credentials
+                </div>
+
+                <button 
+                    type="submit"
+                    id="submitButton"
+                    class="w-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
+                >
+                    Sign In
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <p class="text-slate-400 text-sm">Demo: any email + password</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // N8N Webhook Configuration
+        const N8N_BASE_URL = 'https://your-n8n-instance.com/webhook';
+        
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const submitButton = document.getElementById('submitButton');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Signing in...';
+            errorMessage.classList.add('hidden');
+            
+            try {
+                // Chiamata al webhook N8N per autenticazione
+                const response = await fetch(`${N8N_BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('auth_token', data.token || 'demo_token');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error('Login failed');
+                }
+            } catch (error) {
+                // Demo mode: accetta qualsiasi credenziale
+                console.log('Using demo mode');
+                localStorage.setItem('auth_token', 'demo_token');
+                localStorage.setItem('user_email', email);
+                window.location.href = 'dashboard.html';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Sign In';
+            }
+        });
+    </script>
+</body>
+</html>
