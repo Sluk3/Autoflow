@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Edit, Trash2, Shield, User as UserIcon } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield, User as UserIcon, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import GlassModal from '../components/shared/GlassModal';
@@ -26,10 +26,15 @@ export default function UserManagement() {
     );
   }
 
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = [], isLoading, error } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      return await base44.entities.User.list();
+      console.log('🔍 Fetching users from:', 'https://n8n.srv1041062.hstgr.cloud/webhook/ab4804f8-0aa2-401e-9c53-f7a4097e51be');
+      const result = await base44.entities.User.list();
+      console.log('📦 Users API response:', result);
+      console.log('📊 Is array?', Array.isArray(result));
+      console.log('📊 Users count:', result?.length || 0);
+      return result;
     },
   });
 
@@ -132,7 +137,29 @@ export default function UserManagement() {
 
       <div className="glass-morphism-card rounded-2xl p-6">
         {isLoading ? (
-          <div className="text-center py-12 text-slate-400">Loading...</div>
+          <div className="text-center py-12 text-slate-400">Loading users...</div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">Error loading users</h3>
+            <p className="text-slate-400 mb-4">{error.message}</p>
+            <Button onClick={() => queryClient.invalidateQueries(['users'])} className="bg-blue-500 hover:bg-blue-600">
+              Retry
+            </Button>
+          </div>
+        ) : users.length === 0 ? (
+          <div className="text-center py-12">
+            <UserIcon className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">No users found</h3>
+            <p className="text-slate-400 mb-4">Create your first user to get started.</p>
+            <Button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-gradient-to-r from-purple-500 to-pink-500"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Add First User
+            </Button>
+          </div>
         ) : (
           <div className="grid gap-4">
             {users.map((userItem) => (
