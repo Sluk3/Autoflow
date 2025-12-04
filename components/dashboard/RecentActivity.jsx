@@ -45,7 +45,7 @@ export default function RecentActivity({ workLogs, customers, vehicles }) {
                 </p>
               </div>
               <div className="text-right">
-                <p className="font-semibold text-white">€{log.total_price_eur?.toFixed(2) || '0.00'}</p>
+                <p className="font-semibold text-white">€{parseFloat(log.total_price_eur || 0).toFixed(2)}</p>
                 <p className={`text-xs ${status.color}`}>{log.status}</p>
               </div>
             </div>
