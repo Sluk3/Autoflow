@@ -62,7 +62,8 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* Background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 z-0">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LDEzMCwyNDYsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20" />
       </div>
 
@@ -92,7 +93,8 @@ export default function Layout({ children }) {
       `}</style>
 
       <div className="relative z-10 flex min-h-screen">
-        <aside className="hidden lg:flex lg:flex-col lg:w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0">
+        {/* Desktop Sidebar - Fixed */}
+        <aside className="hidden lg:flex lg:flex-col lg:w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-30">
           <div className="p-6 border-b border-slate-700">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-md">
@@ -152,6 +154,7 @@ export default function Layout({ children }) {
           </div>
         </aside>
 
+        {/* Mobile Header */}
         <div className="lg:hidden fixed top-0 left-0 right-0 z-50 glass-morphism border-b border-slate-700">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
@@ -173,55 +176,65 @@ export default function Layout({ children }) {
           </div>
         </div>
 
+        {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-40 pt-16">
-            <div className="glass-morphism h-full p-4 overflow-y-auto">
-              <nav className="space-y-2 mb-6">
-                {navigationItems.map((item) => {
-                  const isActive = location.pathname === item.url;
-                  return (
-                    <Link
-                      key={item.title}
-                      to={item.url}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                        isActive
-                          ? 'bg-blue-500 text-white'
-                          : 'text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      <item.icon className="w-5 h-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-              <div className="glass-morphism-card rounded-xl p-4">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                    <span className="text-white font-semibold">
-                      {user?.name?.[0]?.toUpperCase() || 'U'}
-                    </span>
+          <>
+            {/* Backdrop */}
+            <div 
+              className="lg:hidden fixed inset-0 bg-black/50 z-[60]"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            {/* Menu */}
+            <div className="lg:hidden fixed inset-0 z-[70] pt-16 pointer-events-none">
+              <div className="glass-morphism h-full p-4 overflow-y-auto pointer-events-auto">
+                <nav className="space-y-2 mb-6">
+                  {navigationItems.map((item) => {
+                    const isActive = location.pathname === item.url;
+                    return (
+                      <Link
+                        key={item.title}
+                        to={item.url}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                          isActive
+                            ? 'bg-blue-500 text-white'
+                            : 'text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        <item.icon className="w-5 h-5" />
+                        <span className="font-medium">{item.title}</span>
+                      </Link>
+                    );
+                  })}
+                </nav>
+                <div className="glass-morphism-card rounded-xl p-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                      <span className="text-white font-semibold">
+                        {user?.name?.[0]?.toUpperCase() || 'U'}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-white">{user?.name || 'User'}</p>
+                      <p className="text-xs text-slate-400">{user?.email || ''}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-white">{user?.name || 'User'}</p>
-                    <p className="text-xs text-slate-400">{user?.email || ''}</p>
-                  </div>
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="w-full justify-start text-slate-300 hover:text-white"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
                 </div>
-                <Button
-                  onClick={handleLogout}
-                  variant="ghost"
-                  className="w-full justify-start text-slate-300 hover:text-white"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </Button>
               </div>
             </div>
-          </div>
+          </>
         )}
 
-        <main className="flex-1 lg:ml-64 lg:pt-0 pt-16">
+        {/* Main Content */}
+        <main className="flex-1 lg:ml-64 lg:pt-0 pt-16 relative z-20">
           <div className="h-full overflow-auto">
             {children}
           </div>
