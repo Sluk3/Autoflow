@@ -15,7 +15,10 @@ class EntityAPI {
 
   async list(sort) {
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.list}`, { headers });
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.list}`, { 
+        method: 'GET',
+        headers 
+      });
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     } catch (error) {
@@ -64,11 +67,12 @@ class EntityAPI {
 
   async delete(id) {
     try {
-      await fetch(`${N8N_BASE_URL}/${this.webhookIds.delete || this.webhookIds.list}/${id}`, {
-        method: 'DELETE',
-        headers
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.delete}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ [`${this.entityName.toLowerCase()}_id`]: id })
       });
-      return true;
+      return await response.json();
     } catch (error) {
       console.error(`Error deleting ${this.entityName}:`, error);
       throw error;
@@ -76,7 +80,7 @@ class EntityAPI {
   }
 }
 
-// Mock auth per sostituire base44.auth
+// Auth API con webhook reali
 const auth = {
   me: async () => {
     const user = localStorage.getItem('user');
@@ -84,15 +88,25 @@ const auth = {
   },
   
   login: async (email, password) => {
-    // Simulazione login - in produzione chiamerebbe N8N
-    const user = {
-      email,
-      name: email.split('@')[0],
-      id: '1'
-    };
-    localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('auth_token', 'demo_token');
-    return user;
+    try {
+      const response = await fetch(`${N8N_BASE_URL}/703f6db5-8415-4bbe-86c3-dfcacf992f90`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ email, password })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+      
+      const userData = await response.json();
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('auth_token', userData.token || 'authenticated');
+      return userData;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
   },
   
   logout: () => {
@@ -113,6 +127,13 @@ const auth = {
 export const base44 = {
   auth,
   entities: {
+    // Users webhooks
+    User: new EntityAPI('User', {
+      list: 'ab4804f8-0aa2-401e-9c53-f7a4097e51be',
+      create: '4338f57b-1a22-48c3-ab7b-af7a0edbaadb',
+      update: 'b7942b35-296d-4c85-b4a8-2b603a782dad',
+      delete: '08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba'
+    }),
     // Customers webhooks
     Customer: new EntityAPI('Customer', {
       list: '5917132c-5c5a-4d35-b493-6062989ee46a',

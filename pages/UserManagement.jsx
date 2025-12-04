@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import GlassModal from '../components/shared/GlassModal';
 import { useAuth } from '@/context/AuthContext';
+import { base44 } from '@/api/n8nClient';
 import bcrypt from 'bcryptjs';
 
 const SALT_ROUNDS = 10;
@@ -30,12 +31,7 @@ export default function UserManagement() {
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const response = await fetch('https://n8n.srv1041062.hstgr.cloud/webhook/users-list', {
-        headers: {
-          'x-api-key': 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance'
-        }
-      });
-      return response.json();
+      return await base44.entities.User.list();
     },
   });
 
@@ -44,20 +40,12 @@ export default function UserManagement() {
       // Hash password with bcrypt before sending
       const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
       
-      const response = await fetch('https://n8n.srv1041062.hstgr.cloud/webhook/users-create', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-api-key': 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance'
-        },
-        body: JSON.stringify({
-          email: data.email,
-          password_hash: hashedPassword,
-          name: data.name,
-          role: data.role
-        }),
+      return await base44.entities.User.create({
+        email: data.email,
+        password_hash: hashedPassword,
+        name: data.name,
+        role: data.role
       });
-      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
@@ -69,7 +57,6 @@ export default function UserManagement() {
   const updateUserMutation = useMutation({
     mutationFn: async ({ id, data }) => {
       const payload = {
-        user_id: id,
         email: data.email,
         name: data.name,
         role: data.role
@@ -80,15 +67,7 @@ export default function UserManagement() {
         payload.password_hash = await bcrypt.hash(data.password, SALT_ROUNDS);
       }
 
-      const response = await fetch('https://n8n.srv1041062.hstgr.cloud/webhook/users-update', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-api-key': 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance'
-        },
-        body: JSON.stringify(payload),
-      });
-      return response.json();
+      return await base44.entities.User.update(id, payload);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
@@ -100,14 +79,7 @@ export default function UserManagement() {
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId) => {
-      await fetch('https://n8n.srv1041062.hstgr.cloud/webhook/users-delete', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'x-api-key': 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance'
-        },
-        body: JSON.stringify({ user_id: userId }),
-      });
+      return await base44.entities.User.delete(userId);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
@@ -265,7 +237,7 @@ export default function UserManagement() {
               placeholder="••••••••"
               minLength={8}
             />
-            <p className="text-xs text-slate-400 mt-1">Min 8 characters. Encrypted with bcrypt.</p>
+            <p className="text-xs text-slate-400 mt-1">Min 8 characters. Encrypted with bcrypt (10 rounds).</p>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">Role</label>
