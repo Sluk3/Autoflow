@@ -37,31 +37,31 @@ export default function Layout({ children }) {
 
   return (
     <div className="flex h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
-      {/* Background Pattern */}
-      <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LDEzMCwyNDYsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none z-0" />
+      {/* Background Pattern - Reduced opacity */}
+      <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LDEzMCwyNDYsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-10 pointer-events-none z-0" />
 
       <style>{`
+        /* Removed backdrop-filter for better performance */
         .glass-morphism {
-          background: rgba(30, 41, 59, 0.85);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          background: rgba(30, 41, 59, 0.95);
           border: 1px solid rgba(148, 163, 184, 0.2);
           box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);
         }
         .glass-morphism-card {
-          background: rgba(30, 41, 59, 0.9);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
+          background: rgba(30, 41, 59, 0.95);
           border: 1px solid rgba(148, 163, 184, 0.15);
           box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
         }
         .glass-hover {
-          transition: all 0.2s ease;
+          transition: background 0.15s ease, box-shadow 0.15s ease;
         }
         .glass-hover:hover {
           background: rgba(51, 65, 85, 0.95);
-          transform: translateY(-1px);
           box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.4);
+        }
+        /* Reduce transition times */
+        * {
+          transition-duration: 0.15s !important;
         }
       `}</style>
 
@@ -80,7 +80,7 @@ export default function Layout({ children }) {
               <Link
                 key={item.title}
                 to={item.url}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl ${
                   isActive
                     ? 'bg-blue-500 text-white shadow-md'
                     : 'text-slate-300 hover:bg-slate-700 hover:text-white'
@@ -129,7 +129,7 @@ export default function Layout({ children }) {
             <img src={logo} alt="BC Performance" className="h-8" />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg hover:bg-slate-700 transition-colors"
+              className="p-2 rounded-lg hover:bg-slate-700"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6 text-white" />
@@ -158,7 +158,7 @@ export default function Layout({ children }) {
                         key={item.title}
                         to={item.url}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl ${
                           isActive
                             ? 'bg-blue-500 text-white shadow-md'
                             : 'text-slate-300 hover:bg-slate-700'
