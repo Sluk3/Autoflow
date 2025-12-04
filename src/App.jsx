@@ -1,20 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { base44 } from './api/n8nClient'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import Layout from '../Layout'
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5,
       retry: 1,
     },
   },
 })
 
-// Import pages from the pages directory
 import Dashboard from '../pages/Dashboard'
 import Customers from '../pages/Customers'
 import Vehicles from '../pages/Vehicles'
@@ -22,12 +19,12 @@ import WorkOrders from '../pages/WorkOrders'
 import CallLogs from '../pages/CallLogs'
 import VehicleCatalog from '../pages/VehicleCatalog'
 
-// Simple Login component
 function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const { login } = useAuth()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+  const [error, setError] = React.useState(null)
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -35,7 +32,7 @@ function Login() {
     setError(null)
 
     try {
-      await base44.auth.login(email, password)
+      await login(email, password)
       window.location.href = '/dashboard'
     } catch (err) {
       setError('Login failed. Please try again.')
@@ -100,18 +97,8 @@ function Login() {
   )
 }
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authed = base44.auth.isAuthenticated()
-      setIsAuthenticated(authed)
-      setLoading(false)
-    }
-    checkAuth()
-  }, [])
+function AppRoutes() {
+  const { user, loading } = useAuth()
 
   if (loading) {
     return (
@@ -122,32 +109,42 @@ function App() {
   }
 
   return (
+    <Routes>
+      <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
+      <Route
+        path="/*"
+        element={
+          user ? (
+            <Layout>
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/customers" element={<Customers />} />
+                <Route path="/vehicles" element={<Vehicles />} />
+                <Route path="/workorders" element={<WorkOrders />} />
+                <Route path="/calllogs" element={<CallLogs />} />
+                <Route path="/vehiclecatalog" element={<VehicleCatalog />} />
+                <Route path="/" element={<Navigate to="/dashboard" />} />
+              </Routes>
+            </Layout>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+    </Routes>
+  )
+}
+
+import React from 'react'
+
+function App() {
+  return (
     <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          <Route path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />} />
-          <Route
-            path="/*"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/customers" element={<Customers />} />
-                    <Route path="/vehicles" element={<Vehicles />} />
-                    <Route path="/workorders" element={<WorkOrders />} />
-                    <Route path="/calllogs" element={<CallLogs />} />
-                    <Route path="/vehiclecatalog" element={<VehicleCatalog />} />
-                    <Route path="/" element={<Navigate to="/dashboard" />} />
-                  </Routes>
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </AuthProvider>
     </QueryClientProvider>
   )
 }
