@@ -1,5 +1,5 @@
 // N8N API Client - Sostituisce Base44
-const N8N_BASE_URL = import.meta.env.VITE_N8N_WEBHOOK_BASE_URL || 'https://n8n.srv1041062.hstgr.cloud/webhook';
+const N8N_BASE_URL = 'https://n8n.srv1041062.hstgr.cloud/webhook';
 const API_KEY = 'A-secret-is-something-you-should-keep-to-yourself-BCPerformance';
 
 const headers = {
