@@ -29,12 +29,22 @@ export default function UserManagement() {
   const { data: users = [], isLoading, error } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      console.log('🔍 Fetching users from:', 'https://n8n.srv1041062.hstgr.cloud/webhook/ab4804f8-0aa2-401e-9c53-f7a4097e51be');
+      console.log('🔍 Fetching users from API...');
       const result = await base44.entities.User.list();
-      console.log('📦 Users API response:', result);
-      console.log('📊 Is array?', Array.isArray(result));
-      console.log('📊 Users count:', result?.length || 0);
-      return result;
+      console.log('📦 Raw API response:', result);
+      
+      // Map API fields to component fields
+      const mappedUsers = result.map(u => ({
+        id: u.id,
+        name: u.fullName,  // API usa fullName
+        email: u.email,
+        role: u.role,
+        is_active: u.is_active,
+        password_hash: u.PWD  // API usa PWD
+      }));
+      
+      console.log('✅ Mapped users:', mappedUsers);
+      return mappedUsers;
     },
   });
 
@@ -45,8 +55,8 @@ export default function UserManagement() {
       
       return await base44.entities.User.create({
         email: data.email,
-        password_hash: hashedPassword,
-        name: data.name,
+        PWD: hashedPassword,  // API richiede PWD
+        fullName: data.name,  // API richiede fullName
         role: data.role
       });
     },
@@ -61,13 +71,13 @@ export default function UserManagement() {
     mutationFn: async ({ id, data }) => {
       const payload = {
         email: data.email,
-        name: data.name,
+        fullName: data.name,  // API richiede fullName
         role: data.role
       };
 
       // Only hash and update password if a new one is provided
       if (data.password) {
-        payload.password_hash = await hashPassword(data.password);
+        payload.PWD = await hashPassword(data.password);  // API richiede PWD
       }
 
       return await base44.entities.User.update(id, payload);
@@ -190,6 +200,11 @@ export default function UserManagement() {
                       }`}>
                         {userItem.role}
                       </span>
+                      {userItem.is_active === false && (
+                        <span className="inline-block ml-2 px-3 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-400/30">
+                          Inactive
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex gap-2">
