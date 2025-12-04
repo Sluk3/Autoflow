@@ -35,6 +35,13 @@ export default function Layout({ children }) {
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
+  // DEBUG: Log user object
+  React.useEffect(() => {
+    console.log('🔍 Current user:', user);
+    console.log('🔍 User role:', user?.role);
+    console.log('🔍 Is admin?', user?.role === 'admin');
+  }, [user]);
+
   // Combine navigation items, showing admin items only for admins
   const navigationItems = [
     ...baseNavigationItems,
