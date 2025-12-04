@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "./src/context/AuthContext";
 import { Button } from "./src/components/ui/button";
+import logo from "./components/shared/logo.png";
 
 const navigationItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -69,8 +70,8 @@ export default function Layout({ children }) {
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-md">
-              <Wrench className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-md overflow-hidden">
+              <img src={logo} alt="BC Performance Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">BC Performance</h1>
@@ -134,8 +135,8 @@ export default function Layout({ children }) {
         <header className="lg:hidden glass-morphism border-b border-slate-700">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                <Wrench className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                <img src={logo} alt="BC Performance Logo" className="w-full h-full object-cover" />
               </div>
               <h1 className="text-lg font-bold text-white">BC Performance</h1>
             </div>
