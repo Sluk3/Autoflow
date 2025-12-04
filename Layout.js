@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { createPageUrl } from "@/utils";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
@@ -12,8 +11,10 @@ import {
   LogOut,
   Database
 } from "lucide-react";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
+import { supabase } from "./src/App";
+import { Button } from "./src/components/ui/button";
+
+const createPageUrl = (pageName) => `/${pageName.toLowerCase()}`;
 
 const navigationItems = [
   {
@@ -50,18 +51,23 @@ const navigationItems = [
 
 export default function Layout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => {
-      // If user is not authenticated, redirect to login
-      base44.auth.redirectToLogin(window.location.pathname);
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        setUser(user);
+      } else {
+        navigate('/login');
+      }
     });
-  }, []);
+  }, [navigate]);
 
-  const handleLogout = () => {
-    base44.auth.logout();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/login');
   };
 
   return (
@@ -136,12 +142,12 @@ export default function Layout({ children }) {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                   <span className="text-white font-semibold text-sm">
-                    {user?.full_name?.[0] || 'U'}
+                    {user?.email?.[0]?.toUpperCase() || 'U'}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate text-white">
-                    {user?.full_name || 'User'}
+                    {user?.user_metadata?.full_name || 'User'}
                   </p>
                   <p className="text-xs truncate text-slate-400">{user?.email || ''}</p>
                 </div>
@@ -207,11 +213,11 @@ export default function Layout({ children }) {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
                     <span className="text-white font-semibold">
-                      {user?.full_name?.[0] || 'U'}
+                      {user?.email?.[0]?.toUpperCase() || 'U'}
                     </span>
                   </div>
                   <div>
-                    <p className="font-medium text-white">{user?.full_name || 'User'}</p>
+                    <p className="font-medium text-white">{user?.user_metadata?.full_name || 'User'}</p>
                     <p className="text-xs text-slate-400">{user?.email || ''}</p>
                   </div>
                 </div>
