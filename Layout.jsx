@@ -9,13 +9,14 @@ import {
   Menu,
   X,
   LogOut,
-  Database
+  Database,
+  Shield
 } from "lucide-react";
 import { useAuth } from "./src/context/AuthContext";
 import { Button } from "./src/components/ui/button";
 import logo from "./components/shared/logo.png";
 
-const navigationItems = [
+const baseNavigationItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Customers", url: "/customers", icon: Users },
   { title: "Vehicles", url: "/vehicles", icon: Car },
@@ -24,11 +25,21 @@ const navigationItems = [
   { title: "Vehicle Catalog", url: "/vehiclecatalog", icon: Database }
 ];
 
+const adminNavigationItems = [
+  { title: "User Management", url: "/users", icon: Shield, adminOnly: true }
+];
+
 export default function Layout({ children }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+  // Combine navigation items, showing admin items only for admins
+  const navigationItems = [
+    ...baseNavigationItems,
+    ...(user?.role === 'admin' ? adminNavigationItems : [])
+  ];
 
   const handleLogout = () => {
     logout();
@@ -107,6 +118,11 @@ export default function Layout({ children }) {
                   {user?.name || 'User'}
                 </p>
                 <p className="text-xs truncate text-slate-400">{user?.email || ''}</p>
+                {user?.role === 'admin' && (
+                  <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium bg-purple-500/20 text-purple-300">
+                    Admin
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -182,6 +198,11 @@ export default function Layout({ children }) {
                       <div className="flex-1">
                         <p className="font-medium text-white">{user?.name || 'User'}</p>
                         <p className="text-xs text-slate-400 truncate">{user?.email || ''}</p>
+                        {user?.role === 'admin' && (
+                          <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-medium bg-purple-500/20 text-purple-300">
+                            Admin
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
