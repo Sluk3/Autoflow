@@ -69,15 +69,7 @@ export default function Layout({ children }) {
       <aside className="hidden lg:flex w-64 flex-col glass-morphism border-r border-slate-700 relative z-10">
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-md overflow-hidden">
-              <img src={logo} alt="BC Performance Logo" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-white">BC Performance</h1>
-              <p className="text-xs text-slate-400">Management System</p>
-            </div>
-          </div>
+          <img src={logo} alt="BC Performance" className="w-full h-auto" />
         </div>
 
         {/* Navigation */}
@@ -134,12 +126,7 @@ export default function Layout({ children }) {
         {/* MOBILE HEADER - SOLO SU MOBILE, NASCOSTO SU DESKTOP */}
         <header className="lg:hidden glass-morphism border-b border-slate-700">
           <div className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                <img src={logo} alt="BC Performance Logo" className="w-full h-full object-cover" />
-              </div>
-              <h1 className="text-lg font-bold text-white">BC Performance</h1>
-            </div>
+            <img src={logo} alt="BC Performance" className="h-8" />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-lg hover:bg-slate-700 transition-colors"
