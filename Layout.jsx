@@ -93,8 +93,8 @@ export default function Layout({ children }) {
       `}</style>
 
       <div className="relative z-10 flex min-h-screen">
-        {/* Desktop Sidebar - Fixed */}
-        <aside className="hidden lg:flex lg:flex-col lg:w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-30">
+        {/* Desktop Sidebar - Only visible on lg+ screens */}
+        <aside className="hidden lg:flex lg:flex-col lg:w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-20">
           <div className="p-6 border-b border-slate-700">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-md">
@@ -234,8 +234,8 @@ export default function Layout({ children }) {
         )}
 
         {/* Main Content */}
-        <main className="flex-1 lg:ml-64 lg:pt-0 pt-16 relative z-20">
-          <div className="h-full overflow-auto">
+        <main className="flex-1 lg:ml-64 relative z-20">
+          <div className="h-full overflow-auto pt-16 lg:pt-0">
             {children}
           </div>
         </main>
