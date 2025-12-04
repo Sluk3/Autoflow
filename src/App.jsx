@@ -18,6 +18,7 @@ import Vehicles from '../pages/Vehicles'
 import WorkOrders from '../pages/WorkOrders'
 import CallLogs from '../pages/CallLogs'
 import VehicleCatalog from '../pages/VehicleCatalog'
+import UserManagement from '../pages/UserManagement'
 
 function Login() {
   const { login } = useAuth()
@@ -45,7 +46,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <div className="glass-morphism rounded-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">AutoFlow Pro</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">BC Performance</h1>
           <p className="text-slate-400">Sign in to your account</p>
         </div>
 
@@ -88,10 +89,6 @@ function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-slate-400 text-sm">Demo: use any email + password</p>
-        </div>
       </div>
     </div>
   )
@@ -123,6 +120,7 @@ function AppRoutes() {
                 <Route path="/workorders" element={<WorkOrders />} />
                 <Route path="/calllogs" element={<CallLogs />} />
                 <Route path="/vehiclecatalog" element={<VehicleCatalog />} />
+                <Route path="/users" element={<UserManagement />} />
                 <Route path="/" element={<Navigate to="/dashboard" />} />
               </Routes>
             </Layout>
