@@ -67,42 +67,99 @@ class EntityAPI {
 
   async create(data) {
     try {
+      console.log(`➕ [${this.entityName}] Creating with data:`, data);
       const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.create}`, {
         method: 'POST',
         headers,
         body: JSON.stringify(data)
       });
-      return await response.json();
+      
+      console.log(`📡 [${this.entityName}] Create response status:`, response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [${this.entityName}] Create error:`, response.status, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
+      // Handle empty response
+      const text = await response.text();
+      if (!text || text.trim() === '') {
+        console.log(`✅ [${this.entityName}] Created successfully (empty response)`);
+        return { success: true };
+      }
+      
+      const result = JSON.parse(text);
+      console.log(`✅ [${this.entityName}] Created:`, result);
+      return result;
     } catch (error) {
-      console.error(`Error creating ${this.entityName}:`, error);
+      console.error(`💥 [${this.entityName}] Create exception:`, error);
       throw error;
     }
   }
 
   async update(id, data) {
     try {
+      console.log(`📝 [${this.entityName}] Updating ${id} with data:`, data);
       const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.update}`, {
         method: 'POST',
         headers,
         body: JSON.stringify({ [`${this.entityName.toLowerCase()}_id`]: id, ...data })
       });
-      return await response.json();
+      
+      console.log(`📡 [${this.entityName}] Update response status:`, response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [${this.entityName}] Update error:`, response.status, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
+      // Handle empty response
+      const text = await response.text();
+      if (!text || text.trim() === '') {
+        console.log(`✅ [${this.entityName}] Updated successfully (empty response)`);
+        return { success: true };
+      }
+      
+      const result = JSON.parse(text);
+      console.log(`✅ [${this.entityName}] Updated:`, result);
+      return result;
     } catch (error) {
-      console.error(`Error updating ${this.entityName}:`, error);
+      console.error(`💥 [${this.entityName}] Update exception:`, error);
       throw error;
     }
   }
 
   async delete(id) {
     try {
+      console.log(`🗑️ [${this.entityName}] Deleting ${id}`);
       const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.delete}`, {
         method: 'POST',
         headers,
         body: JSON.stringify({ [`${this.entityName.toLowerCase()}_id`]: id })
       });
-      return await response.json();
+      
+      console.log(`📡 [${this.entityName}] Delete response status:`, response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [${this.entityName}] Delete error:`, response.status, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
+      // Handle empty response
+      const text = await response.text();
+      if (!text || text.trim() === '') {
+        console.log(`✅ [${this.entityName}] Deleted successfully (empty response)`);
+        return { success: true };
+      }
+      
+      const result = JSON.parse(text);
+      console.log(`✅ [${this.entityName}] Deleted:`, result);
+      return result;
     } catch (error) {
-      console.error(`Error deleting ${this.entityName}:`, error);
+      console.error(`💥 [${this.entityName}] Delete exception:`, error);
       throw error;
     }
   }
