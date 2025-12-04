@@ -64,7 +64,7 @@ export default function Layout({ children }) {
         }
       `}</style>
 
-      {/* ========== DESKTOP SIDEBAR - SEMPRE VISIBILE ========== */}
+      {/* ========== DESKTOP SIDEBAR - SEMPRE VISIBILE SU DESKTOP ========== */}
       <aside className="hidden lg:flex w-64 flex-col glass-morphism border-r border-slate-700 relative z-10">
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
@@ -130,7 +130,7 @@ export default function Layout({ children }) {
 
       {/* ========== MAIN CONTENT AREA ========== */}
       <div className="flex-1 flex flex-col overflow-hidden relative z-10">
-        {/* MOBILE HEADER */}
+        {/* MOBILE HEADER - SOLO SU MOBILE, NASCOSTO SU DESKTOP */}
         <header className="lg:hidden glass-morphism border-b border-slate-700">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
@@ -152,15 +152,15 @@ export default function Layout({ children }) {
           </div>
         </header>
 
-        {/* MOBILE MENU OVERLAY */}
+        {/* MOBILE MENU OVERLAY - SOLO SU MOBILE */}
         {isMobileMenuOpen && (
           <>
             <div 
-              className="lg:hidden fixed inset-0 bg-black/60 z-40"
+              className="fixed inset-0 bg-black/60 z-40 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
-            <div className="lg:hidden fixed top-[65px] left-0 right-0 bottom-0 z-50">
+            <div className="fixed top-[65px] left-0 right-0 bottom-0 z-50 lg:hidden">
               <div className="glass-morphism h-full overflow-y-auto">
                 <nav className="p-4 space-y-2">
                   {navigationItems.map((item) => {
