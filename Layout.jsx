@@ -64,8 +64,8 @@ export default function Layout({ children }) {
         }
       `}</style>
 
-      {/* DESKTOP SIDEBAR - Solo desktop */}
-      <aside className="hidden lg:flex flex-col w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-30">
+      {/* SIDEBAR DESKTOP - SEMPRE VISIBILE su lg+ */}
+      <aside className="hidden lg:flex flex-col w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-40">
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
           <div className="flex items-center gap-3">
@@ -128,7 +128,7 @@ export default function Layout({ children }) {
         </div>
       </aside>
 
-      {/* MOBILE HEADER - Solo mobile */}
+      {/* MOBILE HEADER - SOLO su schermi piccoli */}
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 glass-morphism border-b border-slate-700">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
@@ -150,7 +150,7 @@ export default function Layout({ children }) {
         </div>
       </header>
 
-      {/* MOBILE MENU - Solo quando aperto */}
+      {/* MOBILE MENU - Solo quando aperto su mobile */}
       {isMobileMenuOpen && (
         <>
           {/* Backdrop */}
@@ -160,7 +160,7 @@ export default function Layout({ children }) {
           />
           
           {/* Menu Panel */}
-          <div className="lg:hidden fixed top-16 left-0 right-0 bottom-0 z-[70] overflow-hidden">
+          <div className="lg:hidden fixed top-16 left-0 right-0 bottom-0 z-[70]">
             <div className="glass-morphism h-full overflow-y-auto">
               <nav className="p-4 space-y-2">
                 {navigationItems.map((item) => {
@@ -215,7 +215,7 @@ export default function Layout({ children }) {
       )}
 
       {/* MAIN CONTENT */}
-      <main className="lg:ml-64 pt-16 lg:pt-0 min-h-screen relative">
+      <main className="min-h-screen relative lg:ml-64 pt-16 lg:pt-0">
         {children}
       </main>
     </div>
