@@ -35,9 +35,9 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Background Pattern */}
-      <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LDEzMCwyNDYsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none" />
+      <div className="fixed inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LDEzMCwyNDYsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none z-0" />
 
       <style>{`
         .glass-morphism {
@@ -64,8 +64,8 @@ export default function Layout({ children }) {
         }
       `}</style>
 
-      {/* SIDEBAR DESKTOP - SEMPRE VISIBILE su lg+ */}
-      <aside className="hidden lg:flex flex-col w-64 glass-morphism border-r border-slate-700 fixed left-0 top-0 bottom-0 z-40">
+      {/* ========== DESKTOP SIDEBAR - SEMPRE VISIBILE ========== */}
+      <aside className="hidden lg:flex w-64 flex-col glass-morphism border-r border-slate-700 relative z-10">
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
           <div className="flex items-center gap-3">
@@ -128,96 +128,97 @@ export default function Layout({ children }) {
         </div>
       </aside>
 
-      {/* MOBILE HEADER - SOLO su schermi piccoli */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 glass-morphism border-b border-slate-700">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-              <Wrench className="w-5 h-5 text-white" />
+      {/* ========== MAIN CONTENT AREA ========== */}
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+        {/* MOBILE HEADER */}
+        <header className="lg:hidden glass-morphism border-b border-slate-700">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                <Wrench className="w-5 h-5 text-white" />
+              </div>
+              <h1 className="text-lg font-bold text-white">BC Performance</h1>
             </div>
-            <h1 className="text-lg font-bold text-white">BC Performance</h1>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg hover:bg-slate-700 transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white" />
+              )}
+            </button>
           </div>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 rounded-lg hover:bg-slate-700 transition-colors"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-white" />
-            ) : (
-              <Menu className="w-6 h-6 text-white" />
-            )}
-          </button>
-        </div>
-      </header>
+        </header>
 
-      {/* MOBILE MENU - Solo quando aperto su mobile */}
-      {isMobileMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="lg:hidden fixed inset-0 bg-black/60 z-[60]"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          
-          {/* Menu Panel */}
-          <div className="lg:hidden fixed top-16 left-0 right-0 bottom-0 z-[70]">
-            <div className="glass-morphism h-full overflow-y-auto">
-              <nav className="p-4 space-y-2">
-                {navigationItems.map((item) => {
-                  const isActive = location.pathname === item.url;
-                  return (
-                    <Link
-                      key={item.title}
-                      to={item.url}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                        isActive
-                          ? 'bg-blue-500 text-white shadow-md'
-                          : 'text-slate-300 hover:bg-slate-700'
-                      }`}
-                    >
-                      <item.icon className="w-5 h-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-              
-              <div className="p-4 mt-4">
-                <div className="glass-morphism-card rounded-xl p-4 mb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                      <span className="text-white font-semibold">
-                        {user?.name?.[0]?.toUpperCase() || 'U'}
-                      </span>
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-white">{user?.name || 'User'}</p>
-                      <p className="text-xs text-slate-400 truncate">{user?.email || ''}</p>
+        {/* MOBILE MENU OVERLAY */}
+        {isMobileMenuOpen && (
+          <>
+            <div 
+              className="lg:hidden fixed inset-0 bg-black/60 z-40"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            <div className="lg:hidden fixed top-[65px] left-0 right-0 bottom-0 z-50">
+              <div className="glass-morphism h-full overflow-y-auto">
+                <nav className="p-4 space-y-2">
+                  {navigationItems.map((item) => {
+                    const isActive = location.pathname === item.url;
+                    return (
+                      <Link
+                        key={item.title}
+                        to={item.url}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                          isActive
+                            ? 'bg-blue-500 text-white shadow-md'
+                            : 'text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        <item.icon className="w-5 h-5" />
+                        <span className="font-medium">{item.title}</span>
+                      </Link>
+                    );
+                  })}
+                </nav>
+                
+                <div className="p-4 mt-4">
+                  <div className="glass-morphism-card rounded-xl p-4 mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                        <span className="text-white font-semibold">
+                          {user?.name?.[0]?.toUpperCase() || 'U'}
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-white">{user?.name || 'User'}</p>
+                        <p className="text-xs text-slate-400 truncate">{user?.email || ''}</p>
+                      </div>
                     </div>
                   </div>
+                  <Button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    variant="ghost"
+                    className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-700"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
                 </div>
-                <Button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    handleLogout();
-                  }}
-                  variant="ghost"
-                  className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-700"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sign Out
-                </Button>
               </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {/* MAIN CONTENT */}
-      <main className="min-h-screen relative lg:ml-64 pt-16 lg:pt-0">
-        {children}
-      </main>
+        {/* PAGE CONTENT */}
+        <main className="flex-1 overflow-auto">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
