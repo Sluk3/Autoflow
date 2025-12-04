@@ -1,0 +1,97 @@
+{
+  "name": "WorkLog",
+  "type": "object",
+  "properties": {
+    "customer_vehicle_id": {
+      "type": "string",
+      "description": "Reference to customer vehicle"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "SCHEDULED",
+        "IN_PROGRESS",
+        "COMPLETED",
+        "CANCELLED"
+      ],
+      "default": "SCHEDULED",
+      "description": "Work order status"
+    },
+    "work_type": {
+      "type": "string",
+      "description": "Type of work (e.g., Oil Change, Repair)"
+    },
+    "work_description": {
+      "type": "string",
+      "description": "Detailed description of work"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled appointment date"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Completion date"
+    },
+    "total_price_eur": {
+      "type": "number",
+      "description": "Total price in EUR"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Work notes"
+    }
+  },
+  "required": [
+    "customer_vehicle_id",
+    "work_type",
+    "scheduled_date"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": {
+          "$ne": "guest"
+        }
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

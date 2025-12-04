@@ -1,0 +1,69 @@
+{
+  "name": "VehicleCatalog",
+  "type": "object",
+  "properties": {
+    "make": {
+      "type": "string",
+      "description": "Vehicle manufacturer"
+    },
+    "model": {
+      "type": "string",
+      "description": "Vehicle model"
+    },
+    "year": {
+      "type": "integer",
+      "description": "Manufacturing year"
+    },
+    "engine_code": {
+      "type": "string",
+      "description": "Engine code"
+    },
+    "fuel_type": {
+      "type": "string",
+      "enum": [
+        "Petrol",
+        "Diesel",
+        "Electric",
+        "Hybrid"
+      ],
+      "description": "Fuel type"
+    },
+    "original_power_hp": {
+      "type": "number",
+      "description": "Original power in HP"
+    },
+    "stage1_power_hp": {
+      "type": "number",
+      "description": "Stage 1 tuning power in HP"
+    }
+  },
+  "required": [
+    "make",
+    "model",
+    "year"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": {
+          "$ne": "guest"
+        }
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

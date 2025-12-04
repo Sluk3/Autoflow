@@ -1,0 +1,85 @@
+{
+  "name": "CustomerVehicle",
+  "type": "object",
+  "properties": {
+    "customer_id": {
+      "type": "string",
+      "description": "Reference to customer"
+    },
+    "vehicle_catalog_id": {
+      "type": "string",
+      "description": "Reference to vehicle catalog"
+    },
+    "license_plate": {
+      "type": "string",
+      "description": "Vehicle license plate"
+    },
+    "vin": {
+      "type": "string",
+      "description": "Vehicle identification number"
+    },
+    "itv_inspection": {
+      "type": "string",
+      "format": "date",
+      "description": "Next ITV inspection date"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether vehicle is active"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Vehicle-specific notes"
+    }
+  },
+  "required": [
+    "customer_id",
+    "license_plate"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": {
+          "$ne": "guest"
+        }
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

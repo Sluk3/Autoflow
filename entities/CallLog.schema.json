@@ -1,0 +1,85 @@
+{
+  "name": "CallLog",
+  "type": "object",
+  "properties": {
+    "customer_id": {
+      "type": "string",
+      "description": "Reference to customer"
+    },
+    "call_type": {
+      "type": "string",
+      "enum": [
+        "INCOMING",
+        "OUTGOING"
+      ],
+      "description": "Type of call"
+    },
+    "call_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date and time of call"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Call duration in minutes"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Call subject"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Call notes"
+    }
+  },
+  "required": [
+    "customer_id",
+    "call_date",
+    "subject"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": {
+          "$ne": "guest"
+        }
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
