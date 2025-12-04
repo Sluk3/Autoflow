@@ -16,15 +16,37 @@ class EntityAPI {
   }
 
   async list(sort) {
+    const url = `${N8N_BASE_URL}/${this.webhookIds.list}`;
+    console.log(`🌐 [${this.entityName}] Fetching from:`, url);
+    console.log(`🔑 Headers:`, headers);
+    
     try {
-      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.list}`, { 
+      const response = await fetch(url, { 
         method: 'GET',
         headers 
       });
+      
+      console.log(`📡 [${this.entityName}] Response status:`, response.status, response.statusText);
+      console.log(`📡 [${this.entityName}] Response headers:`, Object.fromEntries(response.headers.entries()));
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [${this.entityName}] HTTP Error:`, response.status, errorText);
+        return [];
+      }
+      
       const data = await response.json();
+      console.log(`✅ [${this.entityName}] Data received:`, data);
+      console.log(`📊 [${this.entityName}] Is array?`, Array.isArray(data));
+      console.log(`📊 [${this.entityName}] Length:`, data?.length);
+      
       return Array.isArray(data) ? data : [];
     } catch (error) {
-      console.error(`Error fetching ${this.entityName}:`, error);
+      console.error(`💥 [${this.entityName}] Exception:`, error);
+      console.error(`💥 [${this.entityName}] Error details:`, {
+        message: error.message,
+        stack: error.stack
+      });
       return [];
     }
   }
