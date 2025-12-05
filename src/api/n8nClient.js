@@ -264,7 +264,7 @@ export const base44 = {
       create: '4338f57b-1a22-48c3-ab7b-af7a0edbaadb',
       update: 'b7942b35-296d-4c85-b4a8-2b603a782dad',
       delete: '08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba',
-      resetPassword: 'PLACEHOLDER-WEBHOOK-ID'  // Da sostituire con il vero webhook ID
+      resetPassword: 'e79143b3-3aed-4965-80fd-7a1fabf78171' 
     }),
     // Customers webhooks
     Customer: new EntityAPI('Customer', {
