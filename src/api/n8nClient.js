@@ -165,6 +165,47 @@ class EntityAPI {
       throw error;
     }
   }
+
+  // Custom method for password reset (only for User entity)
+  async resetPassword(userId, newPasswordHash) {
+    if (!this.webhookIds.resetPassword) {
+      throw new Error(`resetPassword not available for ${this.entityName}`);
+    }
+
+    try {
+      console.log(`🔑 [${this.entityName}] Resetting password for user ${userId}`);
+      const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.resetPassword}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ 
+          user_id: userId, 
+          pwd: newPasswordHash 
+        })
+      });
+      
+      console.log(`📡 [${this.entityName}] Reset password response status:`, response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`❌ [${this.entityName}] Reset password error:`, response.status, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
+      // Handle empty response
+      const text = await response.text();
+      if (!text || text.trim() === '') {
+        console.log(`✅ [${this.entityName}] Password reset successfully (empty response)`);
+        return { success: true };
+      }
+      
+      const result = JSON.parse(text);
+      console.log(`✅ [${this.entityName}] Password reset:`, result);
+      return result;
+    } catch (error) {
+      console.error(`💥 [${this.entityName}] Reset password exception:`, error);
+      throw error;
+    }
+  }
 }
 
 // Auth API con webhook reali e SHA-256
@@ -222,7 +263,8 @@ export const base44 = {
       list: 'ab4804f8-0aa2-401e-9c53-f7a4097e51be',
       create: '4338f57b-1a22-48c3-ab7b-af7a0edbaadb',
       update: 'b7942b35-296d-4c85-b4a8-2b603a782dad',
-      delete: '08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba'
+      delete: '08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba',
+      resetPassword: 'PLACEHOLDER-WEBHOOK-ID'  // Da sostituire con il vero webhook ID
     }),
     // Customers webhooks
     Customer: new EntityAPI('Customer', {
