@@ -36,14 +36,16 @@ class EntityAPI {
       const data = await response.json();
       console.log(`✅ [${this.entityName}] Raw data:`, data);
       
-      // Handle both array and single object responses
+      // Always ensure we return an array
       let result;
       if (Array.isArray(data)) {
+        // Already an array - return as is
         result = data;
       } else if (data && typeof data === 'object') {
         // Single object - wrap in array
         result = [data];
       } else {
+        // Invalid data
         result = [];
       }
       
