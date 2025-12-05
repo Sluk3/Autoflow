@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Edit, Trash2, Shield, User as UserIcon, AlertCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, Shield, User as UserIcon, AlertCircle, KeyRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import GlassModal from '../components/shared/GlassModal';
@@ -11,8 +11,12 @@ import { hashPassword } from '@/utils/crypto';
 export default function UserManagement() {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordResetModalOpen, setIsPasswordResetModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [resetPasswordUser, setResetPasswordUser] = useState(null);
   const [formData, setFormData] = useState({ email: '', password: '', name: '', role: 'user' });
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const queryClient = useQueryClient();
 
   // Check if current user is admin
@@ -111,6 +115,27 @@ export default function UserManagement() {
     },
   });
 
+  const resetPasswordMutation = useMutation({
+    mutationFn: async ({ userId, newPassword }) => {
+      const hashedPassword = await hashPassword(newPassword);
+      
+      return await base44.entities.User.update(userId, {
+        pwd: hashedPassword
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['users']);
+      setIsPasswordResetModalOpen(false);
+      setResetPasswordUser(null);
+      setNewPassword('');
+      setConfirmPassword('');
+      alert('Password reset successfully!');
+    },
+    onError: (error) => {
+      alert('Failed to reset password: ' + error.message);
+    }
+  });
+
   const deleteUserMutation = useMutation({
     mutationFn: async (userId) => {
       return await base44.entities.User.delete(userId);
@@ -129,6 +154,27 @@ export default function UserManagement() {
     }
   };
 
+  const handlePasswordResetSubmit = (e) => {
+    e.preventDefault();
+    
+    if (newPassword !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    
+    if (newPassword.length < 8) {
+      alert('Password must be at least 8 characters long!');
+      return;
+    }
+    
+    if (resetPasswordUser) {
+      resetPasswordMutation.mutate({ 
+        userId: resetPasswordUser.id, 
+        newPassword: newPassword 
+      });
+    }
+  };
+
   const handleEdit = (userToEdit) => {
     setSelectedUser(userToEdit);
     setFormData({ 
@@ -138,6 +184,13 @@ export default function UserManagement() {
       role: userToEdit.role 
     });
     setIsModalOpen(true);
+  };
+
+  const handlePasswordReset = (userToReset) => {
+    setResetPasswordUser(userToReset);
+    setNewPassword('');
+    setConfirmPassword('');
+    setIsPasswordResetModalOpen(true);
   };
 
   const handleDelete = (userId) => {
@@ -156,6 +209,13 @@ export default function UserManagement() {
     setIsModalOpen(false);
     setSelectedUser(null);
     setFormData({ email: '', password: '', name: '', role: 'user' });
+  };
+
+  const closePasswordResetModal = () => {
+    setIsPasswordResetModalOpen(false);
+    setResetPasswordUser(null);
+    setNewPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -240,6 +300,15 @@ export default function UserManagement() {
                     <Button
                       variant="outline"
                       size="icon"
+                      onClick={() => handlePasswordReset(userItem)}
+                      className="bg-yellow-500/20 border-yellow-400/30 text-yellow-300 hover:bg-yellow-500/30"
+                      title="Reset Password"
+                    >
+                      <KeyRound className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
                       onClick={() => handleEdit(userItem)}
                       className="bg-white/10 border-white/20 text-white hover:bg-white/20"
                     >
@@ -262,6 +331,7 @@ export default function UserManagement() {
         )}
       </div>
 
+      {/* Edit/Create User Modal */}
       <GlassModal
         isOpen={isModalOpen}
         onClose={closeModal}
@@ -330,6 +400,68 @@ export default function UserManagement() {
               className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
             >
               {selectedUser ? 'Update' : 'Create'} User
+            </Button>
+          </div>
+        </form>
+      </GlassModal>
+
+      {/* Password Reset Modal */}
+      <GlassModal
+        isOpen={isPasswordResetModalOpen}
+        onClose={closePasswordResetModal}
+        title="Reset Password"
+      >
+        <form onSubmit={handlePasswordResetSubmit} className="space-y-4">
+          <div className="mb-4">
+            <p className="text-slate-300 text-sm">
+              Resetting password for: <span className="font-bold text-white">{resetPasswordUser?.name}</span>
+            </p>
+            <p className="text-slate-400 text-xs">{resetPasswordUser?.email}</p>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">New Password</label>
+            <Input
+              type="password"
+              required
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="bg-white/10 border-white/20 text-white"
+              placeholder="••••••••"
+              minLength={8}
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-slate-300 mb-2">Confirm New Password</label>
+            <Input
+              type="password"
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="bg-white/10 border-white/20 text-white"
+              placeholder="••••••••"
+              minLength={8}
+            />
+          </div>
+          
+          <p className="text-xs text-slate-400">Min 8 characters. Password will be encrypted with SHA-256.</p>
+          
+          <div className="flex justify-end gap-3 pt-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={closePasswordResetModal}
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={resetPasswordMutation.isPending}
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white"
+            >
+              Reset Password
             </Button>
           </div>
         </form>
