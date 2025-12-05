@@ -119,9 +119,8 @@ export default function UserManagement() {
     mutationFn: async ({ userId, newPassword }) => {
       const hashedPassword = await hashPassword(newPassword);
       
-      return await base44.entities.User.update(userId, {
-        pwd: hashedPassword
-      });
+      // Use dedicated resetPassword method
+      return await base44.entities.User.resetPassword(userId, hashedPassword);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);
