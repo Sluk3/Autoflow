@@ -167,20 +167,30 @@ class EntityAPI {
   }
 
   // Custom method for password reset (only for User entity)
-  async resetPassword(userId, newPasswordHash) {
+  async resetPassword(userId, newPasswordHash, email = null) {
     if (!this.webhookIds.resetPassword) {
       throw new Error(`resetPassword not available for ${this.entityName}`);
     }
 
     try {
-      console.log(`🔑 [${this.entityName}] Resetting password for user ${userId}`);
+      console.log(`🔑 [${this.entityName}] Resetting password${email ? ` for email: ${email}` : ` for user ${userId}`}`);
+      
+      const payload = {
+        pwd: newPasswordHash
+      };
+      
+      // If email is provided (forgot password flow), send email
+      // Otherwise send user_id (admin reset flow)
+      if (email) {
+        payload.email = email;
+      } else if (userId) {
+        payload.user_id = userId;
+      }
+      
       const response = await fetch(`${N8N_BASE_URL}/${this.webhookIds.resetPassword}`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({ 
-          user_id: userId, 
-          pwd: newPasswordHash 
-        })
+        body: JSON.stringify(payload)
       });
       
       console.log(`📡 [${this.entityName}] Reset password response status:`, response.status);
