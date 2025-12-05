@@ -94,10 +94,6 @@ export default function Login() {
             </Link>
           </div>
         </form>
-
-        <p className="text-xs text-slate-500 text-center mt-6">
-          Authentication via N8N webhooks
-        </p>
       </div>
     </div>
   )
