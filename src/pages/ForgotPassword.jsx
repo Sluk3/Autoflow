@@ -8,14 +8,13 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [submittedEmail, setSubmittedEmail] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setSuccess(false);
 
     // Validation
     if (newPassword !== confirmPassword) {
@@ -28,24 +27,21 @@ export default function ForgotPassword() {
       return;
     }
 
-    setLoading(true);
+    // Show success page IMMEDIATELY
+    setSubmittedEmail(email);
+    setSuccess(true);
 
-    try {
-      // Hash the new password
-      const hashedPassword = await hashPassword(newPassword);
-
-      // Send email and hashed password to backend
-      // Webhook responds immediately, email is sent asynchronously
-      await base44.entities.User.resetPassword(null, hashedPassword, email);
-
-      // Show success immediately - email will be sent in background
-      setSuccess(true);
-    } catch (err) {
-      console.error('Password reset error:', err);
-      setError(err.message || 'Failed to send reset request. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    // Send request in background (fire and forget)
+    (async () => {
+      try {
+        const hashedPassword = await hashPassword(newPassword);
+        await base44.entities.User.resetPassword(null, hashedPassword, email);
+        console.log('✅ Password reset email request sent');
+      } catch (err) {
+        console.error('❌ Password reset error:', err);
+        // Don't show error to user since they already see success page
+      }
+    })();
   };
 
   return (
@@ -58,17 +54,17 @@ export default function ForgotPassword() {
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Check Your Email</h1>
             <p className="text-slate-400 mb-6">
-              We've sent a confirmation email to <span className="text-white font-medium">{email}</span>
+              We've sent a confirmation email to <span className="text-white font-medium">{submittedEmail}</span>
             </p>
-            <div className="bg-blue-500/10 border border-blue-500 text-blue-400 px-4 py-3 rounded-lg mb-6">
+            <div className="bg-blue-500/10 border border-blue-500 text-blue-400 px-4 py-3 rounded-lg mb-4">
               <p className="text-sm font-medium mb-1">Next Steps:</p>
               <p className="text-xs">
-                Click the link in the email to confirm your password reset. The link will expire in 24 hours.
+                Click the link in the email to confirm your password reset. The link will expire in <strong>5 minutes</strong>.
               </p>
             </div>
             <div className="bg-yellow-500/10 border border-yellow-500 text-yellow-400 px-4 py-2 rounded-lg mb-6">
               <p className="text-xs">
-                <strong>Note:</strong> Email delivery may take a few minutes. Check your spam folder if you don't see it.
+                <strong>Note:</strong> Email delivery may take a few moments. Check your spam folder if you don't see it.
               </p>
             </div>
             <Link 
@@ -140,10 +136,9 @@ export default function ForgotPassword() {
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-br from-yellow-500 to-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full bg-gradient-to-br from-yellow-500 to-orange-500 text-white font-medium py-2 px-4 rounded-lg hover:opacity-90 transition-opacity"
               >
-                {loading ? 'Sending...' : 'Send Reset Email'}
+                Send Reset Email
               </button>
             </form>
 
