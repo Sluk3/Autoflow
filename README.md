@@ -1,35 +1,89 @@
-# AutoFlow Pro
+# BC Performance - AutoFlow Pro
 
 ## AI Receptionist Management System
 
-AutoFlow Pro is a comprehensive workshop management system with integrated AI receptionist capabilities using ElevenLabs for voice calls and WhatsApp integration through N8N webhooks.
+BC Performance AutoFlow Pro is a comprehensive workshop management system with integrated AI receptionist capabilities using ElevenLabs for voice calls and WhatsApp integration through N8N webhooks.
 
-## Features
+## 🚀 Features
 
-- 🎯 **Dashboard** - Overview of workshop statistics and performance
-- 👥 **Customer Management** - Track and manage customer information
-- 🚗 **Vehicle Management** - Register and monitor vehicles
-- 🔧 **Work Orders** - Create and manage repair jobs
-- 📞 **Call Logs** - AI-powered call management with ElevenLabs
-- 📊 **Vehicle Catalog** - Comprehensive vehicle database
+### Core Management
 
-## Tech Stack
+- 🎯 **Dashboard** - Real-time overview of workshop statistics, performance metrics, and recent activities
+- 👥 **Customer Management** - Complete customer database with contact information and service history
+- 🚗 **Vehicle Management** - Register, track, and monitor customer vehicles with detailed specifications
+- 🔧 **Work Orders** - Create, update, and manage repair jobs with status tracking and cost management
+- 📞 **Call Logs** - AI-powered call management and logging with ElevenLabs integration
+- 📊 **Vehicle Catalog** - Comprehensive searchable database of vehicle makes, models, and specifications
 
-- **Frontend**: React 18 + Vite
+### User Management & Security
+
+- 👤 **User Management** (Admin only)
+  - Create, edit, and delete user accounts
+  - Role-based access control (Admin/User)
+  - SHA-256 encrypted passwords
+  - User activity tracking
+  - Admin-initiated password reset
+
+- 🔐 **Authentication & Security**
+  - Secure login with SHA-256 password hashing
+  - Role-based authorization
+  - Protected routes and admin-only pages
+  - Session management
+  - "Forgot Password" self-service flow
+  - Email-based password reset with 5-minute expiry tokens
+
+### AI Receptionist
+
+- 🤖 **Voice Call Handling**
+  - ElevenLabs AI voice integration
+  - Automated call answering and routing
+  - Natural language understanding
+  - Call transcription and logging
+
+- 💬 **WhatsApp Integration**
+  - Automated message responses
+  - Appointment scheduling via WhatsApp
+  - Customer inquiry handling
+  - Message logging and history
+
+### Automation
+
+- ⚡ **N8N Webhooks Integration**
+  - Real-time data synchronization
+  - Automated workflow triggers
+  - Email notifications
+  - Third-party service integration
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: React 18 + Vite
 - **Styling**: TailwindCSS with glass-morphism effects
-- **Backend**: Supabase (Authentication + Database)
-- **AI Voice**: ElevenLabs API
-- **Automation**: N8N Webhooks
+- **State Management**: React Query (TanStack Query)
+- **Routing**: React Router v6
 - **Icons**: Lucide React
+- **UI Components**: Custom components with glass-morphism design
 
-## Setup Instructions
+### Backend & Services
+- **Database**: PostgreSQL (via N8N webhooks)
+- **Authentication**: Custom JWT-based auth via N8N
+- **API Layer**: N8N webhook endpoints
+- **Password Security**: SHA-256 hashing
+
+### AI & Automation
+- **Voice AI**: ElevenLabs API
+- **Automation**: N8N workflows and webhooks
+- **Messaging**: WhatsApp Business API integration
+
+## 📋 Setup Instructions
 
 ### 1. Prerequisites
 
 - Node.js 18+ installed
-- Supabase account and project
-- N8N instance (for webhooks)
+- N8N instance (self-hosted or cloud)
+- PostgreSQL database
 - ElevenLabs API key (for AI calls)
+- WhatsApp Business API access
 
 ### 2. Installation
 
@@ -47,70 +101,125 @@ npm install
 Create a `.env` file in the root directory:
 
 ```env
-# Supabase Configuration
-VITE_SUPABASE_URL=https://qtrypzzcjebvfcihiynt.supabase.co
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+# N8N Configuration
+VITE_N8N_BASE_URL=https://n8n.srv1041062.hstgr.cloud/webhook
+VITE_N8N_API_KEY=your_api_key_here
 
-# N8N Webhook URLs
-VITE_N8N_WEBHOOK_BASE_URL=https://your-n8n-instance.com/webhook
-VITE_N8N_CALL_WEBHOOK=/incoming-call
-VITE_N8N_WHATSAPP_WEBHOOK=/whatsapp-message
+# Webhook IDs
+VITE_N8N_LOGIN_WEBHOOK=703f6db5-8415-4bbe-86c3-dfcacf992f90
+VITE_N8N_USERS_LIST=ab4804f8-0aa2-401e-9c53-f7a4097e51be
+VITE_N8N_USERS_CREATE=4338f57b-1a22-48c3-ab7b-af7a0edbaadb
+VITE_N8N_USERS_UPDATE=b7942b35-296d-4c85-b4a8-2b603a782dad
+VITE_N8N_USERS_DELETE=08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba
+VITE_N8N_PASSWORD_RESET=e79143b3-3aed-4965-80fd-7a1fabf78171
 
 # ElevenLabs Configuration
 VITE_ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
 ```
 
-### 4. Supabase Setup
+### 4. Database Schema
 
-1. Create a Supabase project at https://supabase.com
-2. Get your project URL and anon key from Settings > API
-3. Update the `.env` file with your credentials
-
-### 5. Database Schema
-
-Run these SQL commands in your Supabase SQL editor:
+Run these SQL commands in your PostgreSQL database:
 
 ```sql
+-- Create users table
+CREATE TABLE users_webapp (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  pwd VARCHAR(255) NOT NULL,
+  fullname VARCHAR(255) NOT NULL,
+  role VARCHAR(50) DEFAULT 'user',
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create customers table
 CREATE TABLE customers (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  email TEXT,
-  phone TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255),
+  phone VARCHAR(50),
+  address TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create vehicles table
-CREATE TABLE vehicles (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  customer_id UUID REFERENCES customers(id),
-  make TEXT,
-  model TEXT,
+CREATE TABLE customer_vehicles (
+  id SERIAL PRIMARY KEY,
+  customer_id INTEGER REFERENCES customers(id),
+  make VARCHAR(100),
+  model VARCHAR(100),
   year INTEGER,
-  plate TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  plate VARCHAR(50),
+  vin VARCHAR(100),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create work_orders table
-CREATE TABLE work_orders (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  vehicle_id UUID REFERENCES vehicles(id),
+-- Create work orders table
+CREATE TABLE work_logs (
+  id SERIAL PRIMARY KEY,
+  vehicle_id INTEGER REFERENCES customer_vehicles(id),
+  customer_id INTEGER REFERENCES customers(id),
   description TEXT,
-  status TEXT DEFAULT 'pending',
+  status VARCHAR(50) DEFAULT 'pending',
   total_cost DECIMAL(10,2),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create call_logs table (for AI receptionist)
+-- Create call logs table (for AI receptionist)
 CREATE TABLE call_logs (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  customer_phone TEXT,
-  call_type TEXT,
+  id SERIAL PRIMARY KEY,
+  customer_phone VARCHAR(50),
+  call_type VARCHAR(50),
   transcript TEXT,
   duration INTEGER,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  status VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Create password reset tokens table
+CREATE TABLE password_reset_tokens (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  token VARCHAR(255) UNIQUE NOT NULL,
+  new_password_hash VARCHAR(255) NOT NULL,
+  expires_at TIMESTAMP NOT NULL,
+  used BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create indexes for better performance
+CREATE INDEX idx_users_email ON users_webapp(email);
+CREATE INDEX idx_customers_phone ON customers(phone);
+CREATE INDEX idx_vehicles_customer ON customer_vehicles(customer_id);
+CREATE INDEX idx_work_logs_vehicle ON work_logs(vehicle_id);
+CREATE INDEX idx_password_tokens_token ON password_reset_tokens(token);
 ```
+
+### 5. N8N Workflows Setup
+
+You need to create the following N8N workflows:
+
+#### Authentication Workflow
+- **Login**: Validates email and SHA-256 password hash
+- **Password Reset**: Generates token, sends email, and updates password on confirmation
+
+#### CRUD Workflows (per entity)
+- **List**: GET endpoint to retrieve all records
+- **Create**: POST endpoint to create new records
+- **Update**: POST endpoint to update existing records
+- **Delete**: POST endpoint to delete records
+
+Entities requiring CRUD workflows:
+- Users
+- Customers
+- Vehicles
+- Work Orders
+- Call Logs
 
 ### 6. Run the Application
 
@@ -125,57 +234,111 @@ npm run build
 npm run preview
 ```
 
-The app will be available at `http://localhost:3000`
+The app will be available at `http://localhost:5173`
 
-## N8N Integration
+## 🔌 API Integration
 
-### Incoming Call Webhook
-
-Configure N8N to send incoming call data to your backend:
+### Authentication
 
 ```javascript
-// Example webhook payload
-{
-  "phone": "+1234567890",
-  "callType": "incoming",
-  "timestamp": "2025-12-04T18:00:00Z"
-}
+// Login
+POST /webhook/703f6db5-8415-4bbe-86c3-dfcacf992f90
+Body: { email, password_hash }
+Response: { id, email, fullname, role, token }
+
+// Password Reset Request
+POST /webhook/e79143b3-3aed-4965-80fd-7a1fabf78171
+Body: { email, pwd }
+Response: { success: true }
 ```
 
-### WhatsApp Message Webhook
+### User Management
 
 ```javascript
-// Example webhook payload
-{
-  "from": "+1234567890",
-  "message": "Hello, I need to schedule a service",
-  "timestamp": "2025-12-04T18:00:00Z"
-}
+// List Users
+GET /webhook/ab4804f8-0aa2-401e-9c53-f7a4097e51be
+
+// Create User
+POST /webhook/4338f57b-1a22-48c3-ab7b-af7a0edbaadb
+Body: { email, pwd, fullname, role }
+
+// Update User
+POST /webhook/b7942b35-296d-4c85-b4a8-2b603a782dad
+Body: { user_id, email?, fullname?, role?, pwd? }
+
+// Delete User
+POST /webhook/08e40c7c-f1f1-4ffc-9bc8-230b5ed05dba
+Body: { user_id }
 ```
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Autoflow/
 ├── src/
-│   ├── pages/          # Page components
-│   ├── App.jsx         # Main app component
-│   ├── main.jsx        # Entry point
-│   └── index.css       # Global styles
-├── components/         # Reusable components
-├── entities/           # Data entities
-├── pages/              # Legacy page components
-├── Layout.js           # App layout wrapper
-├── index.html          # HTML template
-├── vite.config.js      # Vite configuration
-├── tailwind.config.js  # Tailwind configuration
-└── package.json        # Dependencies
+│   ├── api/
+│   │   └── n8nClient.js        # N8N API client
+│   ├── components/
+│   │   ├── shared/             # Reusable components
+│   │   └── ui/                 # UI components
+│   ├── context/
+│   │   └── AuthContext.jsx     # Authentication context
+│   ├── pages/
+│   │   ├── Login.jsx           # Login page
+│   │   ├── ForgotPassword.jsx  # Password reset page
+│   │   ├── Dashboard.jsx       # Dashboard
+│   │   ├── UserManagement.jsx  # User management (admin)
+│   │   ├── Customers.jsx       # Customer management
+│   │   ├── Vehicles.jsx        # Vehicle management
+│   │   ├── WorkOrders.jsx      # Work order management
+│   │   ├── CallLogs.jsx        # Call logs
+│   │   └── VehicleCatalog.jsx  # Vehicle catalog
+│   ├── utils/
+│   │   └── crypto.js           # SHA-256 hashing utility
+│   ├── App.jsx                 # Main app component
+│   ├── main.jsx                # Entry point
+│   └── index.css               # Global styles
+├── pages/                      # Legacy pages (being migrated)
+├── components/                 # Legacy components
+├── Layout.jsx                  # App layout wrapper
+├── index.html                  # HTML template
+├── vite.config.js              # Vite configuration
+├── tailwind.config.js          # Tailwind configuration
+├── postcss.config.js           # PostCSS configuration
+└── package.json                # Dependencies
 ```
 
-## Contributing
+## 🔒 Security Features
 
-This is a private project for BC Performance workshop management.
+- **Password Hashing**: All passwords are hashed using SHA-256 before storage
+- **Role-Based Access Control**: Admin and User roles with different permissions
+- **Protected Routes**: Authentication required for all internal pages
+- **Session Management**: Secure token-based authentication
+- **Password Reset Flow**: Time-limited tokens (5 minutes) for password reset
+- **API Key Protection**: All N8N webhooks protected with API key authentication
 
-## License
+## 🎨 Design System
 
-Private - All rights reserved
+- **Glass-morphism UI**: Modern frosted glass effect throughout
+- **Color Scheme**: Dark theme with blue/purple gradients
+- **Responsive Design**: Mobile-first approach with breakpoints
+- **Icon System**: Lucide React for consistent iconography
+- **Typography**: Clear hierarchy with custom font sizes
+
+## 🤝 Contributing
+
+This is a private project for BC Performance. For access or contributions, please contact the repository owner.
+
+## 📄 License
+
+Private - All rights reserved © 2025 BC Performance
+
+## 📧 Support
+
+For issues or questions, please contact the development team.
+
+---
+
+**Version**: 1.0.0  
+**Last Updated**: December 2025  
+**Maintained by**: BC Performance Development Team
