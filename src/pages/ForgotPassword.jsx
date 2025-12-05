@@ -35,13 +35,14 @@ export default function ForgotPassword() {
       const hashedPassword = await hashPassword(newPassword);
 
       // Send email and hashed password to backend
-      // Backend will send confirmation email
+      // Webhook responds immediately, email is sent asynchronously
       await base44.entities.User.resetPassword(null, hashedPassword, email);
 
+      // Show success immediately - email will be sent in background
       setSuccess(true);
     } catch (err) {
       console.error('Password reset error:', err);
-      setError(err.message || 'Failed to send reset email. Please try again.');
+      setError(err.message || 'Failed to send reset request. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -63,6 +64,11 @@ export default function ForgotPassword() {
               <p className="text-sm font-medium mb-1">Next Steps:</p>
               <p className="text-xs">
                 Click the link in the email to confirm your password reset. The link will expire in 24 hours.
+              </p>
+            </div>
+            <div className="bg-yellow-500/10 border border-yellow-500 text-yellow-400 px-4 py-2 rounded-lg mb-6">
+              <p className="text-xs">
+                <strong>Note:</strong> Email delivery may take a few minutes. Check your spam folder if you don't see it.
               </p>
             </div>
             <Link 
