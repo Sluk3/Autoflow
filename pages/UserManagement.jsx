@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Plus, Edit, Trash2, Shield, User as UserIcon, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,37 +26,59 @@ export default function UserManagement() {
     );
   }
 
+  // Fetch users with direct response handling
   const { data: users = [], isLoading, error } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      console.log('🔍 Fetching users from API...');
-      const result = await base44.entities.User.list();
-      console.log('📦 Raw API response:', result);
+      console.log('🔍 [UserManagement] Fetching users...');
       
-      // Map API fields to component fields
-      const mappedUsers = result.map(u => ({
-        id: u.id,
-        name: u.fullname,  // API now uses lowercase fullname
-        email: u.email,
-        role: u.role,
-        is_active: u.is_active,
-        password_hash: u.pwd  // API now uses lowercase pwd
-      }));
+      const response = await base44.entities.User.list();
+      console.log('📦 [UserManagement] Raw response:', response);
+      console.log('📦 [UserManagement] Response type:', typeof response);
+      console.log('📦 [UserManagement] Is array?', Array.isArray(response));
       
-      console.log('✅ Mapped users:', mappedUsers);
+      // Ensure we have an array
+      if (!Array.isArray(response)) {
+        console.warn('⚠️ [UserManagement] Response is not an array, wrapping...');
+        return [];
+      }
+      
+      // Map each user directly from the API response
+      const mappedUsers = response.map((apiUser, index) => {
+        console.log(`👤 [UserManagement] Processing user ${index}:`, apiUser);
+        
+        return {
+          id: apiUser.id,
+          name: apiUser.fullname || apiUser.fullName || 'Unknown',
+          email: apiUser.email || 'no-email@example.com',
+          role: apiUser.role || 'user',
+          is_active: apiUser.is_active !== false // Default to true if undefined
+        };
+      });
+      
+      console.log('✅ [UserManagement] Mapped users:', mappedUsers);
+      console.log('✅ [UserManagement] Total users:', mappedUsers.length);
+      
       return mappedUsers;
     },
+    refetchOnWindowFocus: false,
+    staleTime: 30000 // Cache for 30 seconds
   });
+
+  // Log users whenever they change
+  useEffect(() => {
+    console.log('👥 [UserManagement] Current users state:', users);
+    console.log('👥 [UserManagement] Users count:', users.length);
+  }, [users]);
 
   const createUserMutation = useMutation({
     mutationFn: async (data) => {
-      // Hash password with SHA-256 before sending
       const hashedPassword = await hashPassword(data.password);
       
       return await base44.entities.User.create({
         email: data.email,
-        pwd: hashedPassword,  // API now uses lowercase pwd
-        fullname: data.name,  // API now uses lowercase fullname
+        pwd: hashedPassword,
+        fullname: data.name,
         role: data.role
       });
     },
@@ -71,13 +93,12 @@ export default function UserManagement() {
     mutationFn: async ({ id, data }) => {
       const payload = {
         email: data.email,
-        fullname: data.name,  // API now uses lowercase fullname
+        fullname: data.name,
         role: data.role
       };
 
-      // Only hash and update password if a new one is provided
       if (data.password) {
-        payload.pwd = await hashPassword(data.password);  // API now uses lowercase pwd
+        payload.pwd = await hashPassword(data.password);
       }
 
       return await base44.entities.User.update(id, payload);
@@ -108,13 +129,13 @@ export default function UserManagement() {
     }
   };
 
-  const handleEdit = (user) => {
-    setSelectedUser(user);
+  const handleEdit = (userToEdit) => {
+    setSelectedUser(userToEdit);
     setFormData({ 
-      email: user.email, 
-      password: '', // Don't populate password
-      name: user.name, 
-      role: user.role 
+      email: userToEdit.email, 
+      password: '',
+      name: userToEdit.name, 
+      role: userToEdit.role 
     });
     setIsModalOpen(true);
   };
@@ -125,6 +146,18 @@ export default function UserManagement() {
     }
   };
 
+  const openAddModal = () => {
+    setSelectedUser(null);
+    setFormData({ email: '', password: '', name: '', role: 'user' });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
+    setFormData({ email: '', password: '', name: '', role: 'user' });
+  };
+
   return (
     <div className="p-4 md:p-8 space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -133,11 +166,7 @@ export default function UserManagement() {
           <p className="text-slate-400">{users.length} total users</p>
         </div>
         <Button
-          onClick={() => {
-            setSelectedUser(null);
-            setFormData({ email: '', password: '', name: '', role: 'user' });
-            setIsModalOpen(true);
-          }}
+          onClick={openAddModal}
           className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
         >
           <Plus className="w-5 h-5 mr-2" />
@@ -163,7 +192,7 @@ export default function UserManagement() {
             <h3 className="text-xl font-bold text-white mb-2">No users found</h3>
             <p className="text-slate-400 mb-4">Create your first user to get started.</p>
             <Button 
-              onClick={() => setIsModalOpen(true)}
+              onClick={openAddModal}
               className="bg-gradient-to-r from-purple-500 to-pink-500"
             >
               <Plus className="w-5 h-5 mr-2" />
@@ -235,11 +264,7 @@ export default function UserManagement() {
 
       <GlassModal
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedUser(null);
-          setFormData({ email: '', password: '', name: '', role: 'user' });
-        }}
+        onClose={closeModal}
         title={selectedUser ? 'Edit User' : 'New User'}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -294,11 +319,7 @@ export default function UserManagement() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => {
-                setIsModalOpen(false);
-                setSelectedUser(null);
-                setFormData({ email: '', password: '', name: '', role: 'user' });
-              }}
+              onClick={closeModal}
               className="bg-white/10 border-white/20 text-white hover:bg-white/20"
             >
               Cancel
