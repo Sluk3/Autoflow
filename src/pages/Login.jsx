@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
@@ -41,7 +41,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <div className="glass-morphism rounded-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">AutoFlow Pro</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">BC Performance</h1>
           <p className="text-slate-400">Sign in to your account</p>
         </div>
 
@@ -53,6 +53,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+              placeholder="your@email.com"
               required
             />
           </div>
@@ -64,6 +65,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 rounded-lg bg-slate-800 text-white border border-slate-700 focus:border-blue-500 focus:outline-none"
+              placeholder="••••••••"
               required
             />
           </div>
@@ -81,16 +83,17 @@ export default function Login() {
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
-        </form>
 
-        <div className="mt-4">
-          <button
-            onClick={handleDemoLogin}
-            className="w-full bg-slate-700 text-white font-medium py-2 px-4 rounded-lg hover:bg-slate-600 transition-colors"
-          >
-            Demo Login (for testing)
-          </button>
-        </div>
+          {/* Forgot Password Link */}
+          <div className="text-center">
+            <Link 
+              to="/forgot-password" 
+              className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+        </form>
 
         <p className="text-xs text-slate-500 text-center mt-6">
           Authentication via N8N webhooks
