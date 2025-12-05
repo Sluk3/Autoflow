@@ -1,423 +1,423 @@
 # BC Performance - AutoFlow Pro
 
-## Sistema di Gestione Officina con Receptionist AI
+## Workshop Management System with AI Receptionist
 
-BC Performance AutoFlow Pro è un sistema completo per la gestione di officine meccaniche, con assistente virtuale integrato che gestisce chiamate telefoniche e messaggi WhatsApp in modo automatico.
-
----
-
-## 🎯 Cosa Puoi Fare con AutoFlow Pro
-
-### 📊 Dashboard - Il Tuo Centro di Controllo
-
-**Panoramica completa dell'officina in un colpo d'occhio:**
-- Visualizza quanti clienti hai registrato nel sistema
-- Controlla quanti veicoli sono attualmente in gestione
-- Monitora il numero di ordini di lavoro aperti e completati
-- Vedi le statistiche delle chiamate ricevute oggi
-- Accedi rapidamente alle sezioni più usate
-- Visualizza alert e notifiche importanti
+BC Performance AutoFlow Pro is a comprehensive workshop management system with an integrated virtual assistant that automatically handles phone calls and WhatsApp messages.
 
 ---
 
-### 👥 Gestione Clienti - Anagrafica Completa
+## 🎯 What You Can Do with AutoFlow Pro
 
-**Tutto quello che serve sapere sui tuoi clienti:**
-- **Aggiungi nuovi clienti** con nome, cognome, email, telefono e indirizzo
-- **Modifica informazioni** esistenti quando i clienti cambiano numero o indirizzo
-- **Cerca clienti** velocemente digitando nome, telefono o email
-- **Visualizza storico** di tutti i veicoli e lavori di ogni cliente
-- **Elimina clienti** non più attivi (con conferma di sicurezza)
-- **Filtra e ordina** la lista per trovare rapidamente chi cerchi
-- **Vedi statistiche** come spesa totale e numero di visite
+### 📊 Dashboard - Your Control Center
 
-**Informazioni salvate per ogni cliente:**
-- Nome e cognome completi
-- Numero di telefono (fisso e mobile)
-- Indirizzo email
-- Indirizzo completo di domicilio
-- Data di registrazione
-- Ultima visita
-- Note personalizzate
+**Complete workshop overview at a glance:**
+- View how many customers are registered in the system
+- Check how many vehicles are currently under management
+- Monitor the number of open and completed work orders
+- See today's call statistics
+- Quickly access the most used sections
+- View important alerts and notifications
 
 ---
 
-### 🚗 Gestione Veicoli - Parco Auto dei Clienti
+### 👥 Customer Management - Complete Records
 
-**Registra e traccia tutti i veicoli dei tuoi clienti:**
-- **Aggiungi veicoli** associandoli ai clienti esistenti
-- **Inserisci dettagli completi**: marca, modello, anno, targa, telaio (VIN)
-- **Modifica informazioni** quando necessario (es. cambio targa)
-- **Cerca veicoli** per targa, marca, modello o proprietario
-- **Visualizza storico interventi** per ogni veicolo
-- **Elimina veicoli** non più in uso
-- **Collega automaticamente** il veicolo al proprietario
+**Everything you need to know about your customers:**
+- **Add new customers** with first name, last name, email, phone, and address
+- **Edit existing information** when customers change their number or address
+- **Search customers** quickly by typing name, phone, or email
+- **View history** of all vehicles and jobs for each customer
+- **Delete inactive customers** (with safety confirmation)
+- **Filter and sort** the list to quickly find who you're looking for
+- **See statistics** like total spending and number of visits
 
-**Dati memorizzati per ogni veicolo:**
-- Marca (es. Volkswagen, BMW, Fiat)
-- Modello (es. Golf, Serie 3, Panda)
-- Anno di immatricolazione
-- Numero di targa
-- Numero di telaio (VIN)
-- Proprietario collegato
-- Chilometraggio attuale
-- Storico completo di tutti i lavori effettuati
-- Prossima manutenzione consigliata
+**Information saved for each customer:**
+- Full first and last name
+- Phone number (landline and mobile)
+- Email address
+- Complete home address
+- Registration date
+- Last visit
+- Custom notes
 
 ---
 
-### 🔧 Ordini di Lavoro - Gestione Interventi
+### 🚗 Vehicle Management - Customer Fleet
 
-**Organizza tutti gli interventi di riparazione e manutenzione:**
-- **Crea nuovi ordini** selezionando cliente e veicolo
-- **Descrivi il lavoro** da eseguire in dettaglio
-- **Imposta lo stato**: In attesa, In lavorazione, Completato, Consegnato
-- **Calcola i costi**: manodopera, ricambi, totale
-- **Aggiungi note tecniche** per i meccanici
-- **Stampa preventivi** per i clienti
-- **Traccia i tempi** di lavorazione
-- **Modifica ordini** in corso d'opera
-- **Chiudi lavori** completati
+**Register and track all your customers' vehicles:**
+- **Add vehicles** by associating them with existing customers
+- **Enter complete details**: make, model, year, license plate, VIN
+- **Edit information** when needed (e.g., plate change)
+- **Search vehicles** by plate, make, model, or owner
+- **View service history** for each vehicle
+- **Delete vehicles** no longer in use
+- **Automatically link** the vehicle to the owner
 
-**Stati ordine disponibili:**
-- **In attesa**: Ordine creato, veicolo non ancora ritirato
-- **In lavorazione**: Meccanici al lavoro sul veicolo
-- **In pausa**: Lavoro sospeso (es. in attesa ricambi)
-- **Completato**: Lavoro finito, in attesa di consegna
-- **Consegnato**: Veicolo ritirato dal cliente
-- **Annullato**: Lavoro non eseguito
-
-**Cosa puoi registrare:**
-- Descrizione dettagliata del problema
-- Diagnosi effettuata
-- Interventi eseguiti
-- Ricambi utilizzati (con codici e prezzi)
-- Ore di manodopera
-- Costo totale (con IVA)
-- Data e ora di inizio/fine lavori
-- Tecnico assegnato
-- Note per il cliente
+**Data stored for each vehicle:**
+- Make (e.g., Volkswagen, BMW, Fiat)
+- Model (e.g., Golf, 3 Series, Panda)
+- Year of registration
+- License plate number
+- VIN (Vehicle Identification Number)
+- Linked owner
+- Current mileage
+- Complete history of all work performed
+- Next recommended maintenance
 
 ---
 
-### 📞 Registro Chiamate - Traccia Ogni Contatto
+### 🔧 Work Orders - Service Management
 
-**Tieni traccia di tutte le telefonate e interazioni:**
-- **Visualizza log completo** di tutte le chiamate ricevute
-- **Vedi trascrizioni** delle conversazioni con l'AI
-- **Controlla durata** di ogni chiamata
-- **Identifica chiamante** (se registrato nel sistema)
-- **Leggi riassunti** automatici delle richieste
-- **Filtra per data** o tipo di chiamata
-- **Esporta report** per analisi
+**Organize all repair and maintenance jobs:**
+- **Create new orders** by selecting customer and vehicle
+- **Describe the work** to be done in detail
+- **Set status**: Pending, In Progress, Completed, Delivered
+- **Calculate costs**: labor, parts, total
+- **Add technical notes** for mechanics
+- **Print estimates** for customers
+- **Track work time**
+- **Modify orders** in progress
+- **Close completed jobs**
 
-**Informazioni per ogni chiamata:**
-- Data e ora esatta
-- Numero chiamante
-- Durata in minuti
-- Trascrizione completa
-- Tipo di richiesta (preventivo, appuntamento, info, urgenza)
-- Azione intrapresa dall'AI
-- Note aggiunte manualmente
+**Available order statuses:**
+- **Pending**: Order created, vehicle not yet picked up
+- **In Progress**: Mechanics working on the vehicle
+- **On Hold**: Work suspended (e.g., waiting for parts)
+- **Completed**: Work finished, awaiting delivery
+- **Delivered**: Vehicle picked up by customer
+- **Cancelled**: Work not performed
 
----
-
-### 📚 Catalogo Veicoli - Database Completo
-
-**Banca dati di tutte le auto in commercio:**
-- **Cerca qualsiasi veicolo** per marca, modello o anno
-- **Trova specifiche tecniche**: motore, potenza, cilindrata
-- **Consulta schede dettagliate** per ogni modello
-- **Copia dati** automaticamente nei veicoli clienti
-- **Aggiorna catalogo** con nuovi modelli
-- **Filtra per categoria**: berline, SUV, sportive, commerciali
-
-**Dati disponibili:**
-- Tutte le marche automobilistiche
-- Modelli dal 1990 ad oggi
-- Motorizzazioni (benzina, diesel, elettrico, ibrido)
-- Dati tecnici (cavalli, cilindrata, coppia)
-- Consumi e emissioni
-- Equipaggiamenti disponibili
+**What you can record:**
+- Detailed problem description
+- Diagnosis performed
+- Work carried out
+- Parts used (with codes and prices)
+- Labor hours
+- Total cost (with VAT)
+- Start/end date and time
+- Assigned technician
+- Customer notes
 
 ---
 
-### 🔐 Gestione Utenti - Controllo Accessi (Solo Amministratori)
+### 📞 Call Log - Track Every Contact
 
-**Crea e gestisci gli account del personale:**
+**Keep track of all phone calls and interactions:**
+- **View complete log** of all received calls
+- **See transcriptions** of conversations with the AI
+- **Check duration** of each call
+- **Identify caller** (if registered in the system)
+- **Read automatic summaries** of requests
+- **Filter by date** or call type
+- **Export reports** for analysis
 
-#### Creazione Utenti
-- **Aggiungi nuovo personale** inserendo email e password
-- **Assegna ruoli**: Amministratore o Utente Standard
-- **Imposta nome completo** per identificazione
-- **Genera password sicure** (minimo 8 caratteri)
-- **Attiva/disattiva** account quando necessario
-
-#### Modifica Utenti
-- **Cambia informazioni** personali (nome, email)
-- **Modifica ruolo** (promuovi a admin o declassa)
-- **Aggiorna password** quando richiesto
-- **Disattiva temporaneamente** senza cancellare l'account
-
-#### Reset Password (da Admin)
-- **Clicca icona chiave gialla** accanto all'utente
-- **Inserisci nuova password** due volte per conferma
-- **Password aggiornata immediatamente** e sicura
-- **L'utente può accedere subito** con la nuova password
-
-#### Eliminazione Utenti
-- **Rimuovi utenti** che lasciano l'azienda
-- **Conferma richiesta** per evitare cancellazioni accidentali
-- **Non puoi eliminare te stesso** per sicurezza
-- **Tutti i dati** dell'utente vengono preservati
-
-**Differenze tra Ruoli:**
-
-**👑 Amministratore può:**
-- Accedere a tutte le sezioni
-- Creare, modificare ed eliminare utenti
-- Resettare password di altri utenti
-- Vedere tutti i dati
-- Modificare impostazioni di sistema
-- Esportare report completi
-
-**👤 Utente Standard può:**
-- Gestire clienti e veicoli
-- Creare e modificare ordini di lavoro
-- Vedere registro chiamate
-- Consultare catalogo veicoli
-- Modificare solo la propria password
-- Non può gestire altri utenti
+**Information for each call:**
+- Exact date and time
+- Caller number
+- Duration in minutes
+- Complete transcription
+- Request type (quote, appointment, info, emergency)
+- Action taken by the AI
+- Manually added notes
 
 ---
 
-### 🔒 Login e Sicurezza - Accesso Protetto
+### 📚 Vehicle Catalog - Complete Database
 
-**Sistema di autenticazione sicuro:**
+**Database of all commercial vehicles:**
+- **Search any vehicle** by make, model, or year
+- **Find technical specs**: engine, power, displacement
+- **View detailed sheets** for each model
+- **Copy data** automatically to customer vehicles
+- **Update catalog** with new models
+- **Filter by category**: sedans, SUVs, sports cars, commercial vehicles
+
+**Available data:**
+- All automotive brands
+- Models from 1990 to present
+- Engines (gasoline, diesel, electric, hybrid)
+- Technical data (horsepower, displacement, torque)
+- Fuel consumption and emissions
+- Available equipment
+
+---
+
+### 🔐 User Management - Access Control (Administrators Only)
+
+**Create and manage staff accounts:**
+
+#### User Creation
+- **Add new staff** by entering email and password
+- **Assign roles**: Administrator or Standard User
+- **Set full name** for identification
+- **Generate secure passwords** (minimum 8 characters)
+- **Activate/deactivate** accounts when needed
+
+#### User Modification
+- **Change personal information** (name, email)
+- **Modify role** (promote to admin or downgrade)
+- **Update password** when required
+- **Temporarily disable** without deleting the account
+
+#### Password Reset (by Admin)
+- **Click yellow key icon** next to the user
+- **Enter new password** twice for confirmation
+- **Password updated immediately** and securely
+- **User can login right away** with the new password
+
+#### User Deletion
+- **Remove users** who leave the company
+- **Confirmation required** to avoid accidental deletions
+- **Cannot delete yourself** for security
+- **All user data** is preserved
+
+**Differences between Roles:**
+
+**👑 Administrator can:**
+- Access all sections
+- Create, edit, and delete users
+- Reset other users' passwords
+- View all data
+- Modify system settings
+- Export complete reports
+
+**👤 Standard User can:**
+- Manage customers and vehicles
+- Create and modify work orders
+- View call log
+- Browse vehicle catalog
+- Only modify their own password
+- Cannot manage other users
+
+---
+
+### 🔒 Login and Security - Protected Access
+
+**Secure authentication system:**
 
 #### Login
-- **Inserisci email e password** per accedere
-- **Password crittografate** con tecnologia SHA-256
-- **Sessione sicura** che ricorda l'accesso
-- **Logout rapido** quando finisci di lavorare
-- **Protezione automatica** dopo inattività
+- **Enter email and password** to access
+- **Encrypted passwords** with SHA-256 technology
+- **Secure session** that remembers your login
+- **Quick logout** when you finish working
+- **Automatic protection** after inactivity
 
-#### Password Dimenticata - Recupero Autonomo
-1. **Clicca "Forgot your password?"** nella pagina di login
-2. **Inserisci la tua email** registrata nel sistema
-3. **Scegli nuova password** (minimo 8 caratteri)
-4. **Conferma la password** digitandola di nuovo
-5. **Ricevi email** con link di conferma
-6. **Clicca il link** nell'email (valido 5 minuti)
-7. **Password cambiata!** Puoi accedere subito
+#### Forgot Password - Self-Service Recovery
+1. **Click "Forgot your password?"** on the login page
+2. **Enter your registered email**
+3. **Choose new password** (minimum 8 characters)
+4. **Confirm password** by typing it again
+5. **Receive email** with confirmation link
+6. **Click the link** in the email (valid for 5 minutes)
+7. **Password changed!** You can login immediately
 
-**Sicurezza del recupero password:**
-- Link valido solo **5 minuti** per sicurezza
-- Un link per volta (il nuovo invalida il vecchio)
-- Email inviata solo a indirizzi registrati
-- Password mai visibile in chiaro
-- Notifica in caso di accessi sospetti
-
----
-
-### 🤖 Receptionist AI - Assistente Virtuale 24/7
-
-**Il tuo receptionist sempre attivo che non va mai in pausa:**
-
-#### Gestione Chiamate Telefoniche
-- **Risponde automaticamente** a tutte le chiamate in arrivo
-- **Voce naturale e professionale** grazie a ElevenLabs AI
-- **Capisce richieste** in linguaggio naturale italiano
-- **Prenota appuntamenti** controllando disponibilità
-- **Fornisce informazioni** su orari e servizi
-- **Rilascia preventivi** per interventi standard
-- **Registra urgenze** e le segnala immediatamente
-- **Trasferisce chiamate** complesse a operatore umano
-
-**Cosa sa fare l'AI al telefono:**
-- "Vorrei prenotare un tagliando" → Propone date disponibili
-- "Quanto costa cambiare le pastiglie freni?" → Fornisce preventivo
-- "Siete aperti sabato?" → Comunica orari
-- "Ho una gomma bucata, è urgente!" → Segnala emergenza
-- "Devo parlare con un meccanico" → Trasferisce la chiamata
-
-#### Gestione WhatsApp
-- **Risponde ai messaggi** automaticamente
-- **Conferma appuntamenti** via chat
-- **Invia promemoria** il giorno prima
-- **Comunica stato lavori** ("La tua auto è pronta!")
-- **Condivide preventivi** in formato PDF
-- **Raccoglie feedback** dopo intervento
-- **Gestisce richieste info** su orari e servizi
-
-**Esempi di conversazioni WhatsApp:**
-- Cliente: "A che ora chiudete?" → AI: "Chiudiamo alle 19:00"
-- Cliente: "La mia macchina è pronta?" → AI: "Sì! Puoi passare a ritirarla"
-- Cliente: "Quanto costa il tagliando?" → AI: Invia preventivo dettagliato
-- Cliente: "Vorrei prenotare" → AI: "Che giorno preferisci?"
-
-#### Vantaggi del Receptionist AI
-✅ **Disponibile 24 ore su 24**, anche di notte e weekend
-✅ **Non perde mai una chiamata**, niente più clienti persi
-✅ **Gestisce più contatti** contemporaneamente
-✅ **Sempre cortese e paziente**, mai di cattivo umore
-✅ **Costi ridotti** rispetto a un receptionist umano
-✅ **Multilingua** (italiano, inglese, e altre lingue)
-✅ **Trascrizioni complete** di ogni conversazione
-✅ **Apprendimento continuo** migliora nel tempo
+**Password recovery security:**
+- Link valid for only **5 minutes** for security
+- One link at a time (new one invalidates the old)
+- Email sent only to registered addresses
+- Password never visible in plain text
+- Notification for suspicious access attempts
 
 ---
 
-### ⚡ Automazioni - Lavoro Svolto per Te
+### 🤖 AI Receptionist - 24/7 Virtual Assistant
 
-**Il sistema lavora automaticamente in background:**
+**Your always-on receptionist that never takes a break:**
 
-#### Email Automatiche
-- **Conferma appuntamento** inviata al cliente
-- **Promemoria** il giorno prima dell'appuntamento
-- **Notifica lavoro completato** quando l'auto è pronta
-- **Preventivo via email** dopo richiesta telefonica
-- **Reset password** con link sicuro
-- **Fatture e ricevute** dopo pagamento
+#### Phone Call Management
+- **Automatically answers** all incoming calls
+- **Natural and professional voice** thanks to ElevenLabs AI
+- **Understands requests** in natural Italian language
+- **Books appointments** by checking availability
+- **Provides information** on hours and services
+- **Gives quotes** for standard services
+- **Records emergencies** and reports them immediately
+- **Transfers complex calls** to human operator
 
-#### Notifiche in Tempo Reale
-- **Nuova chiamata ricevuta** dall'AI
-- **Appuntamento prenotato** da WhatsApp
-- **Ordine completato** dal meccanico
-- **Cliente in ritardo** per ritiro
-- **Ricambi ordinati** in consegna
-- **Pagamento ricevuto**
+**What the AI can do on the phone:**
+- "I'd like to book a service" → Proposes available dates
+- "How much does it cost to change brake pads?" → Provides quote
+- "Are you open on Saturday?" → Communicates hours
+- "I have a flat tire, it's urgent!" → Reports emergency
+- "I need to speak with a mechanic" → Transfers the call
 
-#### Sincronizzazione Dati
-- **Aggiornamento automatico** tra telefono, WhatsApp e sistema
-- **Backup giornaliero** di tutti i dati
-- **Calendari sincronizzati** tra operatori
-- **Statistiche aggiornate** in tempo reale
+#### WhatsApp Management
+- **Responds to messages** automatically
+- **Confirms appointments** via chat
+- **Sends reminders** the day before
+- **Communicates work status** ("Your car is ready!")
+- **Shares quotes** in PDF format
+- **Collects feedback** after service
+- **Handles info requests** on hours and services
 
----
+**WhatsApp conversation examples:**
+- Customer: "What time do you close?" → AI: "We close at 7:00 PM"
+- Customer: "Is my car ready?" → AI: "Yes! You can pick it up"
+- Customer: "How much for a service?" → AI: Sends detailed quote
+- Customer: "I'd like to book" → AI: "What day do you prefer?"
 
-## 📱 Come Funziona Nella Pratica
-
-### Scenario 1: Cliente Chiama per Appuntamento
-
-1. 📞 **Cliente chiama** il numero dell'officina
-2. 🤖 **AI risponde** "BC Performance, buongiorno!"
-3. 💬 **Cliente**: "Vorrei prenotare un tagliando"
-4. 🗓️ **AI controlla** disponibilità nel calendario
-5. 📅 **AI propone** "Lunedì 11 alle 9:00 va bene?"
-6. ✅ **Cliente conferma**
-7. 📧 **Sistema invia** email di conferma automatica
-8. 📝 **Appuntamento compare** nel tuo calendario
-9. 🔔 **Ricevi notifica** nel sistema
-
-### Scenario 2: Reset Password Dimenticata
-
-1. 👤 **Meccanico dimentica** password
-2. 🔑 **Clicca** "Forgot your password?"
-3. ✍️ **Inserisce** email e nuova password
-4. 📧 **Riceve email** con link di conferma
-5. 🖱️ **Clicca link** nell'email (entro 5 minuti)
-6. ✅ **Password aggiornata**
-7. 🚪 **Accede** subito al sistema
-
-### Scenario 3: Gestione Ordine di Lavoro
-
-1. 🚗 **Cliente porta** auto per revisione
-2. 📝 **Crei ordine** selezionando cliente e veicolo
-3. ✍️ **Descrivi lavoro**: "Revisione + cambio olio"
-4. 💰 **Calcoli costo**: €150 totale
-5. 🔧 **Meccanico lavora**, aggiorna stato "In lavorazione"
-6. ✅ **Lavoro finito**, stato "Completato"
-7. 📧 **Cliente riceve** email automatica "Auto pronta!"
-8. 📞 **Cliente chiama/scrive** per confermare ritiro
-9. 🚗 **Cliente ritira**, chiudi ordine "Consegnato"
+#### AI Receptionist Benefits
+✅ **Available 24/7**, even at night and weekends
+✅ **Never misses a call**, no more lost customers
+✅ **Handles multiple contacts** simultaneously
+✅ **Always polite and patient**, never in a bad mood
+✅ **Reduced costs** compared to human receptionist
+✅ **Multilingual** (Italian, English, and other languages)
+✅ **Complete transcriptions** of every conversation
+✅ **Continuous learning** improves over time
 
 ---
 
-## 🎯 Chi Può Usare AutoFlow Pro
+### ⚡ Automations - Working for You
 
-✅ **Officine meccaniche** di qualsiasi dimensione
-✅ **Carrozzerie** per gestione clienti e preventivi
-✅ **Gommisti** per gestione appuntamenti pneumatici
-✅ **Centri revisione** per organizzazione revisioni
-✅ **Concessionarie** per assistenza post-vendita
-✅ **Fleet manager** per gestione parco auto aziendale
+**The system works automatically in the background:**
 
----
+#### Automatic Emails
+- **Appointment confirmation** sent to customer
+- **Reminder** the day before the appointment
+- **Work completed notification** when the car is ready
+- **Quote via email** after phone request
+- **Password reset** with secure link
+- **Invoices and receipts** after payment
 
-## ✨ Vantaggi Principali
+#### Real-Time Notifications
+- **New call received** from the AI
+- **Appointment booked** via WhatsApp
+- **Order completed** by mechanic
+- **Customer late** for pickup
+- **Parts ordered** in delivery
+- **Payment received**
 
-### Per il Titolare
-📈 **Più clienti serviti** grazie all'AI che non perde chiamate
-💰 **Riduzione costi** personale receptionist
-📊 **Statistiche chiare** su rendimento officina
-⏱️ **Risparmio tempo** grazie alle automazioni
-😊 **Clienti più soddisfatti** per servizio sempre disponibile
-
-### Per i Meccanici
-📱 **Sistema facile da usare** anche da tablet
-✅ **Ordini di lavoro chiari** con tutte le info necessarie
-⚡ **Aggiornamenti veloci** dello stato lavori
-📋 **Storico completo** veicolo sempre disponibile
-🔍 **Ricerca rapida** di pezzi e specifiche tecniche
-
-### Per i Clienti
-📞 **Risposta immediata** anche fuori orario
-📱 **Comunicazione via WhatsApp** comoda e veloce
-📧 **Aggiornamenti automatici** sullo stato auto
-⏰ **Promemoria** appuntamenti
-💳 **Preventivi trasparenti** prima di iniziare
+#### Data Synchronization
+- **Automatic updates** between phone, WhatsApp, and system
+- **Daily backup** of all data
+- **Synchronized calendars** among operators
+- **Real-time updated statistics**
 
 ---
 
-## 🛠️ Requisiti Tecnici
+## 📱 How It Works in Practice
 
-**Non serve essere esperti di tecnologia!**
+### Scenario 1: Customer Calls for Appointment
 
-### Cosa Ti Serve
-- 💻 **Computer o tablet** con browser moderno (Chrome, Firefox, Safari)
-- 🌐 **Connessione internet** (anche WiFi standard va bene)
-- 📞 **Numero di telefono** per le chiamate AI
-- 📱 **Account WhatsApp Business** (gratuito)
-- 📧 **Indirizzo email** per notifiche
+1. 📞 **Customer calls** the workshop number
+2. 🤖 **AI answers** "BC Performance, good morning!"
+3. 💬 **Customer**: "I'd like to book a service"
+4. 🗓️ **AI checks** calendar availability
+5. 📅 **AI proposes** "Monday the 11th at 9:00 AM works?"
+6. ✅ **Customer confirms**
+7. 📧 **System sends** automatic confirmation email
+8. 📝 **Appointment appears** in your calendar
+9. 🔔 **You receive notification** in the system
 
-### Niente Installazioni
-- ☁️ **Tutto online** via browser
-- 📱 **Funziona su smartphone** per consultazioni veloci
-- 🔄 **Aggiornamenti automatici** sempre ultima versione
-- 💾 **Backup automatico** non perdi mai i dati
-- 🔒 **Sicurezza garantita** dati crittografati
+### Scenario 2: Forgot Password Reset
+
+1. 👤 **Mechanic forgets** password
+2. 🔑 **Clicks** "Forgot your password?"
+3. ✍️ **Enters** email and new password
+4. 📧 **Receives email** with confirmation link
+5. 🖱️ **Clicks link** in email (within 5 minutes)
+6. ✅ **Password updated**
+7. 🚪 **Logs in** immediately to the system
+
+### Scenario 3: Work Order Management
+
+1. 🚗 **Customer brings** car for inspection
+2. 📝 **You create order** selecting customer and vehicle
+3. ✍️ **Describe work**: "Inspection + oil change"
+4. 💰 **Calculate cost**: €150 total
+5. 🔧 **Mechanic works**, updates status "In Progress"
+6. ✅ **Work finished**, status "Completed"
+7. 📧 **Customer receives** automatic email "Car ready!"
+8. 📞 **Customer calls/texts** to confirm pickup
+9. 🚗 **Customer picks up**, close order "Delivered"
 
 ---
 
-## 📞 Supporto e Assistenza
+## 🎯 Who Can Use AutoFlow Pro
 
-Hai bisogno di aiuto? Siamo qui per te!
-
-- 💬 **Chat dal vivo** durante orario lavorativo
-- 📧 **Email support** risposta entro 24h
-- 📱 **Telefono dedicato** per urgenze
-- 📚 **Video tutorial** per ogni funzione
-- 🎓 **Formazione iniziale** gratuita per il team
+✅ **Auto repair shops** of any size
+✅ **Body shops** for customer and quote management
+✅ **Tire shops** for tire appointment management
+✅ **Inspection centers** for inspection organization
+✅ **Dealerships** for after-sales service
+✅ **Fleet managers** for company vehicle fleet management
 
 ---
 
-## 🚀 Inizia Subito
+## ✨ Main Benefits
 
-1. **Registrati** con email aziendale
-2. **Configura** dati officina e numero telefono
-3. **Aggiungi** primo cliente per provare
-4. **Testa** l'AI chiamando il tuo numero
-5. **Inizia** a lavorare!
+### For the Owner
+📈 **More customers served** thanks to AI that never misses calls
+💰 **Cost reduction** for receptionist staff
+📊 **Clear statistics** on workshop performance
+⏱️ **Time savings** thanks to automation
+😊 **More satisfied customers** for always-available service
 
-**Setup iniziale**: 30 minuti  
-**Formazione team**: 2 ore  
-**Operativo**: Subito!
+### For Mechanics
+📱 **Easy-to-use system** even from tablet
+✅ **Clear work orders** with all necessary info
+⚡ **Quick status updates**
+📋 **Complete vehicle history** always available
+🔍 **Fast search** for parts and technical specs
+
+### For Customers
+📞 **Immediate response** even after hours
+📱 **Communication via WhatsApp** convenient and fast
+📧 **Automatic updates** on car status
+⏰ **Appointment reminders**
+💳 **Transparent quotes** before starting
+
+---
+
+## 🛠️ Technical Requirements
+
+**No need to be tech-savvy!**
+
+### What You Need
+- 💻 **Computer or tablet** with modern browser (Chrome, Firefox, Safari)
+- 🌐 **Internet connection** (even standard WiFi works)
+- 📞 **Phone number** for AI calls
+- 📱 **WhatsApp Business account** (free)
+- 📧 **Email address** for notifications
+
+### No Installations
+- ☁️ **All online** via browser
+- 📱 **Works on smartphones** for quick checks
+- 🔄 **Automatic updates** always latest version
+- 💾 **Automatic backup** never lose data
+- 🔒 **Guaranteed security** encrypted data
+
+---
+
+## 📞 Support and Assistance
+
+Need help? We're here for you!
+
+- 💬 **Live chat** during business hours
+- 📧 **Email support** response within 24h
+- 📱 **Dedicated phone** for emergencies
+- 📚 **Video tutorials** for every function
+- 🎓 **Free initial training** for the team
+
+---
+
+## 🚀 Get Started Now
+
+1. **Sign up** with business email
+2. **Configure** workshop data and phone number
+3. **Add** first customer to try
+4. **Test** the AI by calling your number
+5. **Start** working!
+
+**Initial setup**: 30 minutes  
+**Team training**: 2 hours  
+**Operational**: Immediately!
 
 ---
 
 **BC Performance AutoFlow Pro**  
-*La soluzione completa per officine moderne*
+*The complete solution for modern workshops*
 
 📧 Email: support@bcperformance.com  
 📞 Tel: +39 XXX XXX XXXX  
@@ -425,6 +425,6 @@ Hai bisogno di aiuto? Siamo qui per te!
 
 ---
 
-**Versione**: 1.0.0  
-**Ultimo Aggiornamento**: Dicembre 2025  
-**© 2025 BC Performance - Tutti i diritti riservati**
+**Version**: 1.0.0  
+**Last Updated**: December 2025  
+**© 2025 BC Performance - All Rights Reserved**
