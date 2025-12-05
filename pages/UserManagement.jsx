@@ -36,11 +36,11 @@ export default function UserManagement() {
       // Map API fields to component fields
       const mappedUsers = result.map(u => ({
         id: u.id,
-        name: u.fullName,  // API usa fullName
+        name: u.fullname,  // API now uses lowercase fullname
         email: u.email,
         role: u.role,
         is_active: u.is_active,
-        password_hash: u.PWD  // API usa PWD
+        password_hash: u.pwd  // API now uses lowercase pwd
       }));
       
       console.log('✅ Mapped users:', mappedUsers);
@@ -55,8 +55,8 @@ export default function UserManagement() {
       
       return await base44.entities.User.create({
         email: data.email,
-        PWD: hashedPassword,  // API richiede PWD
-        fullName: data.name,  // API richiede fullName
+        pwd: hashedPassword,  // API now uses lowercase pwd
+        fullname: data.name,  // API now uses lowercase fullname
         role: data.role
       });
     },
@@ -71,13 +71,13 @@ export default function UserManagement() {
     mutationFn: async ({ id, data }) => {
       const payload = {
         email: data.email,
-        fullName: data.name,  // API richiede fullName
+        fullname: data.name,  // API now uses lowercase fullname
         role: data.role
       };
 
       // Only hash and update password if a new one is provided
       if (data.password) {
-        payload.PWD = await hashPassword(data.password);  // API richiede PWD
+        payload.pwd = await hashPassword(data.password);  // API now uses lowercase pwd
       }
 
       return await base44.entities.User.update(id, payload);
